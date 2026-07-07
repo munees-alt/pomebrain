@@ -1,0 +1,8 @@
+cases:
+  - id: user-owned-records
+    input: Write an RLS policy ensuring users can only read or write records containing their own authenticated user_id.
+    expected:
+      - Produces restrictive RLS SQL statement blocks.
+      - Includes positive and negative verification tests.
+      - Requires human admin validation before final policy application.
+

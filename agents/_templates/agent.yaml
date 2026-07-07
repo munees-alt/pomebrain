@@ -1,0 +1,24 @@
+schema_version: 1
+id: agent.example
+name: Example Agent
+slug: example-agent
+version: 0.1.0
+status: draft
+primary_domain: engineering
+secondary_domains: []
+purpose: Replace with one clear outcome this agent owns.
+inputs: []
+outputs: []
+skills: []
+mcp:
+  allow: []
+  confirm: []
+  deny:
+    - secrets.read_raw
+approval:
+  knowledge_promotion: required
+  production_changes: required
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/
+

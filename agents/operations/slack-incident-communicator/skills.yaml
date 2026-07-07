@@ -1,0 +1,8 @@
+skills:
+  - id: block-kit-layout-building
+    purpose: Compose readable Slack message blocks.
+  - id: asynchronous-incident-communication
+    purpose: Communicate pipeline state without blocking execution.
+  - id: log-stack-trace-minimization
+    purpose: Reduce noisy traces to the evidence humans need.
+

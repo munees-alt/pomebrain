@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+proposal_generation: allow
+foundry_promotion: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

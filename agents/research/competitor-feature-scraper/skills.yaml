@@ -1,0 +1,8 @@
+skills:
+  - id: dom-parsing
+    purpose: Extract structured information from public pages.
+  - id: raw-semantic-feature-abstraction
+    purpose: Convert page content into comparable feature patterns.
+  - id: structured-comparative-listing
+    purpose: Produce clear competitor matrices and capability lists.
+

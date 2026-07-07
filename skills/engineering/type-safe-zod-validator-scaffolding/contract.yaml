@@ -1,0 +1,19 @@
+schema_version: 1
+id: skill.engineering.type-safe-zod-validator-scaffolding
+name: Type-Safe Zod Validator Scaffolding
+slug: type-safe-zod-validator-scaffolding
+version: 1.0.0
+status: draft
+primary_domain: engineering
+used_by:
+  - agent.engineering.database-schema-provisioner
+  - agent.engineering.nextjs-boilerplate-architect
+inputs:
+  - database_table_schema
+outputs:
+  - zod_schema_code
+approval:
+  generated_contract_review: required
+risks:
+  - Schema inference can be wrong if DDL lacks constraints or naming clarity.
+

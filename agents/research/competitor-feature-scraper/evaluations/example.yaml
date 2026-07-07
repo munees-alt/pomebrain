@@ -1,0 +1,8 @@
+cases:
+  - id: microsaas-competitor-matrix
+    input: Analyze the publicly documented pricing models and feature sets of top alternative micro-SaaS applications in the target space.
+    expected:
+      - Produces a comparative feature matrix.
+      - Uses public read-only sources.
+      - Distinguishes observed claims from inferred patterns.
+

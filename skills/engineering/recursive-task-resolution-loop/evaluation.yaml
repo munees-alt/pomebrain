@@ -1,0 +1,17 @@
+cases:
+  - id: resume-from-checkpoint
+    input:
+      project_id: project_saas_landing
+      task_list:
+        - id: db_schema
+          status: approved
+        - id: auth_routes
+          status: failed
+        - id: dashboard_view
+          status: pending
+      graph_health_state: auth_routes blocks dashboard_view
+    expected:
+      - Does not repeat db_schema.
+      - Selects auth_routes as the next task.
+      - Blocks dashboard_view until auth_routes passes evaluation.
+

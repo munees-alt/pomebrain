@@ -1,0 +1,8 @@
+cases:
+  - id: saas-core-schema
+    input: Generate a schema for user profiles, organizations, and subscription states matching our SaaS design requirements.
+    expected:
+      - Produces SQL migration files and matching validation notes.
+      - Includes tenant boundary fields where required.
+      - Requires approval before applying migrations.
+

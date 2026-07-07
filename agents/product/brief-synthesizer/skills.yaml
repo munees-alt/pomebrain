@@ -1,0 +1,9 @@
+skills:
+  - id: app-brief-decomposition
+    purpose: Convert loose app ideas into requirements, data entities, workflows, and MVP boundaries.
+  - id: prompt-translation
+    purpose: Convert conversational requests into structured requirements.
+  - id: product-scope-boundary-tracking
+    purpose: Keep downstream work aligned to the approved scope.
+  - id: competitive-feature-analysis
+    purpose: Add market context only when it improves product decisions.

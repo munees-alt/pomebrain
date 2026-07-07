@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+usage_tracking: allow
+budget_pause_or_throttle: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

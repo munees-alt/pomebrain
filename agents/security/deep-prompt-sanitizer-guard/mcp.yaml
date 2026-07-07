@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - models.openai.classification.lightweight
+  confirm:
+    - workspace.runtime.isolate
+    - workspace.project.block
+  deny:
+    - secrets.read_raw
+

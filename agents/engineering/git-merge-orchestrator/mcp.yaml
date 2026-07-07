@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - github.pull_requests.create
+    - github.branches.manage
+  confirm:
+    - github.pull_requests.merge
+  deny:
+    - secrets.read_raw
+

@@ -1,0 +1,11 @@
+skills:
+  - id: nextjs-app-router-architecture-template
+    purpose: Generate deterministic Next.js App Router folder maps and module boundaries.
+  - id: type-safe-zod-validator-scaffolding
+    purpose: Prepare validation boundaries for form and payload contracts.
+  - id: nextjs-14-plus-best-practices
+    purpose: Use modern App Router conventions, server/client boundaries, and type-safe layouts.
+  - id: tailwind-styling-optimization
+    purpose: Create maintainable utility-first styling foundations.
+  - id: absolute-import-structuring
+    purpose: Keep imports predictable across app, components, and lib directories.

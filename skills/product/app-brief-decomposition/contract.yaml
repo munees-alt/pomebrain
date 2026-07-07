@@ -1,0 +1,20 @@
+schema_version: 1
+id: skill.product.app-brief-decomposition
+name: App Brief Decomposition
+slug: app-brief-decomposition
+version: 1.0.0
+status: draft
+primary_domain: product
+used_by:
+  - agent.product.brief-synthesizer
+inputs:
+  - raw_user_prompt
+  - target_tech_stack
+outputs:
+  - functional_requirements
+  - data_entities_list
+approval:
+  promotion_to_engineering: required
+risks:
+  - May over-expand MVP scope if optional features are not separated.
+

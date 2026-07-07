@@ -1,0 +1,6 @@
+knowledge_promotion: confirm
+vector_ingestion: allow
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

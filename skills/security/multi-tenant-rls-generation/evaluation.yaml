@@ -1,0 +1,10 @@
+cases:
+  - id: organization-owned-records
+    input:
+      table_name: projects
+      tenant_foreign_key: organization_id
+    expected:
+      - Enables RLS.
+      - Drafts CRUD policies.
+      - Denies anonymous access by default.
+

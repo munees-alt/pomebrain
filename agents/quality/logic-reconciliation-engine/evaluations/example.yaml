@@ -1,0 +1,8 @@
+cases:
+  - id: nextjs-version-conflict-map
+    input: Compare this newly submitted Next.js configuration against our older v13 setup, evaluate the structural differences, and generate a conflict map for the workspace inbox.
+    expected:
+      - Produces a structural comparison summary.
+      - Proposes conflict or supersedes links.
+      - Requires human confirmation before canonical winner selection.
+

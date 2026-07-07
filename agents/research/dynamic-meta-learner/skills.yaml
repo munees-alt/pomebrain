@@ -1,0 +1,8 @@
+skills:
+  - id: abstraction-extraction
+    purpose: Convert specific successful work into reusable patterns.
+  - id: standardized-manifest-formatting
+    purpose: Package proposals in Pomebrain-compatible manifest formats.
+  - id: behavioral-distillation
+    purpose: Preserve agent behavior and decision rules from successful runs.
+

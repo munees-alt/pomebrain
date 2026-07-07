@@ -1,0 +1,6 @@
+knowledge_promotion: confirm
+quota_enforcement: allow
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

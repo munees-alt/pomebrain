@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+preview_deploy: allow
+environment_changes: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

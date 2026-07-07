@@ -1,0 +1,8 @@
+skills:
+  - id: loop-breakout-tracking
+    purpose: Detect recursive or runaway model-call loops.
+  - id: real-time-context-token-counting
+    purpose: Monitor context and output token consumption while work runs.
+  - id: automated-thread-throttling
+    purpose: Stop execution paths when configured quota thresholds are exceeded.
+

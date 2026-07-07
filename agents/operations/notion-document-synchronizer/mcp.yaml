@@ -1,0 +1,11 @@
+mcp:
+  allow:
+    - notion.pages.create
+    - notion.pages.update
+    - notion.blocks.append
+  confirm:
+    - notion.public_pages.publish
+    - notion.workspace.structure.update
+  deny:
+    - secrets.read_raw
+

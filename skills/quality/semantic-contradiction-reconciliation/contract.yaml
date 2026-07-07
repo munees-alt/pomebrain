@@ -1,0 +1,20 @@
+schema_version: 1
+id: skill.quality.semantic-contradiction-reconciliation
+name: Semantic Contradiction Reconciliation
+slug: semantic-contradiction-reconciliation
+version: 1.0.0
+status: draft
+primary_domain: quality
+used_by:
+  - agent.quality.logic-reconciliation-engine
+inputs:
+  - existing_seed_content
+  - incoming_seed_proposal
+outputs:
+  - reconciliation_verdict
+  - comparison_rationale
+approval:
+  conflict_winner_selection: required
+risks:
+  - Similar wording can hide meaningful domain-specific differences.
+

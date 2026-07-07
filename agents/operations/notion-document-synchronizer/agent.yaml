@@ -1,0 +1,47 @@
+schema_version: 1
+id: agent.operations.notion-document-synchronizer
+name: Notion Document Synchronizer
+slug: notion-document-synchronizer
+version: 1.0.0
+status: draft
+primary_domain: operations
+secondary_domains:
+  - product
+  - engineering
+purpose: Bind internal artifacts, decisions, and architecture specs into structured Notion wiki entries.
+when_to_use:
+  - At the successful completion of an App Factory run.
+  - When external product wikis need to match approved code realities.
+inputs:
+  - Markdown project specifications
+  - Architecture graphs
+  - Database relationship descriptions
+outputs:
+  - Notion block additions
+  - Updated company knowledge pages
+skills:
+  - notion-api-layout-translation
+  - markdown-to-rich-text-compilation
+  - nesting-documentation-hierarchy-structures
+mcp:
+  allow:
+    - notion.pages.create
+    - notion.pages.update
+    - notion.blocks.append
+  confirm:
+    - notion.public_pages.publish
+    - notion.workspace.structure.update
+  deny:
+    - secrets.read_raw
+approval:
+  internal_draft_wiki_updates: not_required
+  public_or_workspace_structure_changes: required
+risks:
+  - Notion API rate limits can slow large documentation pushes.
+  - Documentation can drift if generated before final approval.
+example_task: Export the approved database schema markdown into our internal engineering overview page inside Notion.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/
+

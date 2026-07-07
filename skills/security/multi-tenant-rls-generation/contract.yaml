@@ -1,0 +1,19 @@
+schema_version: 1
+id: skill.security.multi-tenant-rls-generation
+name: Multi-Tenant RLS Generation
+slug: multi-tenant-rls-generation
+version: 1.0.0
+status: draft
+primary_domain: security
+used_by:
+  - agent.security.supabase-rls-guard
+inputs:
+  - table_name
+  - tenant_foreign_key
+outputs:
+  - rls_migration_sql
+approval:
+  rls_policy_execution: required
+risks:
+  - Overly strict policies can break legitimate read flows.
+

@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.policies.generate
+    - supabase.policies.apply
+  deny:
+    - supabase.rls.disable
+    - secrets.read_raw
+

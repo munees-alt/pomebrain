@@ -1,0 +1,45 @@
+schema_version: 1
+id: agent.engineering.vercel-deployment-manager
+name: Vercel Deployment Manager
+slug: vercel-deployment-manager
+version: 1.0.0
+status: draft
+primary_domain: engineering
+secondary_domains:
+  - operations
+purpose: Orchestrate code package handoffs, environment flags, preview builds, and production deployment gates on Vercel.
+when_to_use:
+  - At the final App Factory execution stage.
+  - After testing gates successfully clear.
+inputs:
+  - Target repository branch name
+  - Vercel project context
+  - Verified environment keys list
+outputs:
+  - Preview build URLs
+  - Production deployment logs
+skills:
+  - vercel-build-configuration
+  - environment-tracking
+  - edge-function-scaling-rules
+mcp:
+  allow:
+    - vercel.deploy.preview
+  confirm:
+    - vercel.deploy.production
+    - vercel.environment.update
+  deny:
+    - secrets.read_raw
+approval:
+  preview_deploy: not_required
+  production_deploy: required
+  environment_changes: required
+risks:
+  - Builds will fail if upstream linting or TypeScript errors are missed.
+  - Environment variable mistakes can cause runtime failures.
+example_task: Push the current main branch to production on Vercel and pass the public database routing keys.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

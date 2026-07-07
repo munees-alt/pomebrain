@@ -1,0 +1,58 @@
+{
+  "mcpServers": {
+    "supabase_connector": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server"],
+      "env": {
+        "SUPABASE_URL": "${POMEBRAIN_SUPABASE_URL}",
+        "SUPABASE_SERVICE_ROLE_KEY": "${POMEBRAIN_SUPABASE_SERVICE_ROLE_KEY}"
+      }
+    },
+    "github_connector": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${POMEBRAIN_GITHUB_PAT}"
+      }
+    },
+    "vercel_connector": {
+      "command": "npx",
+      "args": ["-y", "vercel-next-dev-tools"],
+      "env": {
+        "VERCEL_TOKEN": "${POMEBRAIN_VERCEL_TOKEN}",
+        "VERCEL_PROJECT_ID": "${POMEBRAIN_VERCEL_PROJECT_ID}",
+        "VERCEL_TEAM_ID": "${POMEBRAIN_VERCEL_TEAM_ID}"
+      }
+    },
+    "anthropic_connector": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-anthropic"],
+      "env": {
+        "ANTHROPIC_API_KEY": "${POMEBRAIN_ANTHROPIC_API_KEY}"
+      }
+    },
+    "openai_connector": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-openai"],
+      "env": {
+        "OPENAI_API_KEY": "${POMEBRAIN_OPENAI_API_KEY}"
+      }
+    },
+    "google_workspace_connector": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-workspace"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${POMEBRAIN_GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${POMEBRAIN_GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${POMEBRAIN_GOOGLE_REFRESH_TOKEN}"
+      }
+    },
+    "fathom_connector": {
+      "command": "npx",
+      "args": ["-y", "fathom-analytics-mcp"],
+      "env": {
+        "FATHOM_API_TOKEN": "${POMEBRAIN_FATHOM_API_TOKEN}"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+cases:
+  - id: lucide-react-evaluation
+    input: Evaluate the package lucide-react for security warnings, bundle weight, and confirm its MIT license complies with our policies.
+    expected:
+      - Produces a dependency risk matrix.
+      - Checks license and public security signals.
+      - Does not modify dependency configuration directly.
+

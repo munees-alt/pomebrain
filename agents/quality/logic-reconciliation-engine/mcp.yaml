@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.conflicts.write
+    - supabase.edges.supersedes.update
+  deny:
+    - secrets.read_raw
+

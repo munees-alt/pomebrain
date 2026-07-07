@@ -1,0 +1,42 @@
+schema_version: 1
+id: agent.product.brief-synthesizer
+name: Brief Synthesizer
+slug: brief-synthesizer
+version: 1.0.0
+status: draft
+primary_domain: product
+secondary_domains:
+  - research
+purpose: Turn loose conversational project goals into structured feature requirement documents.
+when_to_use:
+  - As the App Factory entry point.
+  - Before code, database, or layout planning begins.
+inputs:
+  - Loose user idea prompts
+  - Target constraints
+  - Feature priorities
+outputs:
+  - Standardized markdown feature specification matrix
+  - User workflow scopes
+skills:
+  - app-brief-decomposition
+  - prompt-translation
+  - product-scope-boundary-tracking
+  - competitive-feature-analysis
+mcp:
+  allow:
+    - models.openai.route
+    - models.claude.route
+  confirm: []
+  deny:
+    - secrets.read_raw
+approval:
+  feature_matrix: required
+  scope_promotion: required
+risks:
+  - May over-complicate simple projects by adding unnecessary edge cases if left unrestricted.
+example_task: Turn the phrase "Build a finance tracker dashboard that works with simple mock metrics" into a strict functional specification document.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/

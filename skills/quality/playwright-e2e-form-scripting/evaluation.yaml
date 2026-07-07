@@ -1,0 +1,12 @@
+cases:
+  - id: onboarding-form-submit
+    input:
+      target_url: http://localhost:3000/onboarding
+      form_selectors_and_inputs:
+        email: test@example.com
+        company: Example Co
+    expected:
+      - Uses labels or data-testid selectors.
+      - Sets explicit timeouts.
+      - Asserts redirect or success state.
+

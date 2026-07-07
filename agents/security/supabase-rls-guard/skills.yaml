@@ -1,0 +1,9 @@
+skills:
+  - id: multi-tenant-rls-generation
+    purpose: Produce secure Supabase/Postgres RLS policy SQL for tenant-scoped access.
+  - id: postgresql-security-administration
+    purpose: Design secure Postgres access policies.
+  - id: jwt-claims-mapping
+    purpose: Connect authenticated identity claims to table access.
+  - id: tenant-containment-strategy
+    purpose: Keep multi-tenant data strictly separated.

@@ -1,0 +1,8 @@
+mcp:
+  allow:
+    - models.openai.route
+    - models.claude.route
+  confirm: []
+  deny:
+    - secrets.read_raw
+

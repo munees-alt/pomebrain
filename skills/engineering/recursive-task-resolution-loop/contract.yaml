@@ -1,0 +1,26 @@
+schema_version: 1
+id: skill.engineering.recursive-task-resolution-loop
+name: Recursive Task Resolution Loop
+slug: recursive-task-resolution-loop
+version: 1.0.0
+status: draft
+primary_domain: engineering
+used_by:
+  - agent.engineering.pomebrain-architect-orchestrator
+inputs:
+  - project_id
+  - app_specifications
+  - task_list
+  - active_execution_logs
+  - graph_health_state
+outputs:
+  - agent_assignment_tickets
+  - subtask_status_loop
+  - system_run_logs
+  - blocked_state_notifications
+approval:
+  external_build_triggers: required
+  core_file_permission_changes: required
+risks:
+  - Can repeat or loop if continuity checkpoints are ignored.
+

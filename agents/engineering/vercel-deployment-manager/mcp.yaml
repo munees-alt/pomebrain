@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - vercel.deploy.preview
+  confirm:
+    - vercel.deploy.production
+    - vercel.environment.update
+  deny:
+    - secrets.read_raw
+

@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - web.public_pages.read
+    - web.search.query
+  confirm: []
+  deny:
+    - web.authenticated_scraping
+    - secrets.read_raw
+

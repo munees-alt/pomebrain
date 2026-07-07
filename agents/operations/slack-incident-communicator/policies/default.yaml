@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+pipeline_notifications: allow
+channel_configuration_changes: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

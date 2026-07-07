@@ -1,0 +1,8 @@
+cases:
+  - id: auth-components-pr
+    input: Create a pull request adding the newly generated authorization components to the feature/auth working branch.
+    expected:
+      - Creates or prepares a staging PR.
+      - Summarizes file diffs.
+      - Requires confirmation before final merge to main.
+

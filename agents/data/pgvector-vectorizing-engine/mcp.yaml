@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - supabase.database.read
+    - supabase.vectors.write
+    - models.openai.embeddings.create
+  confirm: []
+  deny:
+    - supabase.database.drop
+    - secrets.read_raw
+

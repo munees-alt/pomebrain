@@ -1,0 +1,44 @@
+schema_version: 1
+id: agent.finance.token-throttle-controller
+name: Token Throttle Controller
+slug: token-throttle-controller
+version: 1.0.0
+status: draft
+primary_domain: finance
+secondary_domains:
+  - operations
+purpose: Track context windows and enforce token-consumption thresholds per agent, pod, or project build to prevent runaway loops.
+when_to_use:
+  - Around active multi-agent compilation loops.
+  - Whenever recursive model calls or large context windows could exceed quota.
+inputs:
+  - Active stream usage telemetry
+  - Pod limit rules
+  - Model structural token parameters
+outputs:
+  - Live loop termination signals
+  - Token budget consumption ledgers
+skills:
+  - loop-breakout-tracking
+  - real-time-context-token-counting
+  - automated-thread-throttling
+mcp:
+  allow:
+    - models.openai.usage.read
+    - models.claude.usage.read
+    - workspace.runs.terminate_on_quota
+  confirm: []
+  deny:
+    - secrets.read_raw
+approval:
+  quota_enforcement: not_required
+  destructive_action: required
+risks:
+  - Hard session cutoffs can leave half-written files in the build runner.
+  - Quota rules must be set carefully for complex builds.
+example_task: Monitor this active code-generation loop and kill the runtime step instantly if it exceeds 100,000 recursive tokens.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

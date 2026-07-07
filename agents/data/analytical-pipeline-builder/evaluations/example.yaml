@@ -1,0 +1,8 @@
+cases:
+  - id: retention-cohort-query
+    input: Create a query pipeline that calculates daily active user retention cohorts over rolling 7-day intervals.
+    expected:
+      - Produces optimized SQL aggregation logic.
+      - States metric assumptions.
+      - Requires review before executing database view changes.
+

@@ -1,0 +1,42 @@
+schema_version: 1
+id: agent.research.competitor-feature-scraper
+name: Competitor Feature Scraper
+slug: competitor-feature-scraper
+version: 1.0.0
+status: draft
+primary_domain: research
+secondary_domains:
+  - product
+purpose: Explore public API specs, app marketplaces, and public software documentation to extract missing capability patterns.
+when_to_use:
+  - During initial product exploration when looking to bridge functional feature gaps.
+inputs:
+  - Target domains list
+  - Specialized tech stack keywords
+  - Functionality feature goals
+outputs:
+  - Competitive product analysis matrix
+  - Open public capability lists
+skills:
+  - dom-parsing
+  - raw-semantic-feature-abstraction
+  - structured-comparative-listing
+mcp:
+  allow:
+    - web.public_pages.read
+    - web.search.query
+  confirm: []
+  deny:
+    - web.authenticated_scraping
+    - secrets.read_raw
+approval:
+  public_read_only_research: not_required
+risks:
+  - Bot protection can block or distort scraping results.
+  - Public pages may be stale, incomplete, or marketing-biased.
+example_task: Analyze the publicly documented pricing models and feature sets of top alternative micro-SaaS applications in the target space.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/
+

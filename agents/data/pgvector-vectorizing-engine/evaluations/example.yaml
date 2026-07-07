@@ -1,0 +1,8 @@
+cases:
+  - id: product-manual-embedding
+    input: Chunk the latest 50-page product manual and store the generated embeddings in our database semantic search collection.
+    expected:
+      - Produces chunked payload batches.
+      - Preserves source metadata.
+      - Uses vector write capability without raw database secrets.
+

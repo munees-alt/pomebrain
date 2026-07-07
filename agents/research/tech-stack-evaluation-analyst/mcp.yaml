@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - github.repositories.read
+    - package_registries.npm.read
+    - package_registries.pip.read
+  confirm:
+    - dependencies.major_version_update.propose
+  deny:
+    - secrets.read_raw
+

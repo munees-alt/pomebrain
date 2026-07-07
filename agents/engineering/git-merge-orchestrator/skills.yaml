@@ -1,0 +1,8 @@
+skills:
+  - id: git-diff-calculation
+    purpose: Summarize generated changes accurately.
+  - id: branch-synchronization-strategy
+    purpose: Keep feature branches aligned with trunk safely.
+  - id: branch-conflict-isolation
+    purpose: Identify and separate merge conflicts for review.
+

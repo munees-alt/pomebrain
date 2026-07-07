@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.knowledge.write
+    - pomebrain.agent_manifest.propose
+    - pomebrain.skill_package.propose
+  deny:
+    - secrets.read_raw
+

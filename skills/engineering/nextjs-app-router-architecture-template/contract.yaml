@@ -1,0 +1,19 @@
+schema_version: 1
+id: skill.engineering.nextjs-app-router-architecture-template
+name: Next.js App Router Architecture Template
+slug: nextjs-app-router-architecture-template
+version: 1.0.0
+status: draft
+primary_domain: engineering
+used_by:
+  - agent.engineering.nextjs-boilerplate-architect
+inputs:
+  - feature_modules
+  - global_components
+outputs:
+  - directory_tree_json
+approval:
+  folder_layout: required
+risks:
+  - Can over-nest modules if feature names are vague.
+

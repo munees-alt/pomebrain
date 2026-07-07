@@ -1,0 +1,9 @@
+skills:
+  - id: semantic-contradiction-reconciliation
+    purpose: Compare incoming seeds against existing records and propose conflict or supersession actions.
+  - id: semantic-comparison-analytics
+    purpose: Compare intent and behavior across graph nodes.
+  - id: logic-verification-mapping
+    purpose: Evaluate which node is more accurate or current.
+  - id: structural-overlap-pruning
+    purpose: Propose clean graph structure without losing useful specialization.

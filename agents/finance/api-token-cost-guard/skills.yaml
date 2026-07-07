@@ -1,0 +1,8 @@
+skills:
+  - id: financial-run-rate-projection
+    purpose: Project short-term usage into weekly and monthly budget impact.
+  - id: cross-provider-token-conversion-math
+    purpose: Compare token usage and cost across OpenAI and Claude provider adapters.
+  - id: anomaly-detection
+    purpose: Detect unusual cost spikes or runaway execution loops.
+

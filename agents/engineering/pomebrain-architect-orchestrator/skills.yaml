@@ -1,0 +1,4 @@
+skills:
+  - id: recursive-task-resolution-loop
+    purpose: Scan graph tasks, order dependencies, dispatch agents, evaluate results, and resume safely from checkpoints.
+

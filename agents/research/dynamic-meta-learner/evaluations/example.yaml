@@ -1,0 +1,8 @@
+cases:
+  - id: auth-bug-skill-proposal
+    input: Analyze how the engineer fixed that tricky Supabase authentication bug and extract the exact resolution sequence into a reusable Skill seed.
+    expected:
+      - Produces a pending skill proposal.
+      - Links proposal to evidence from the completed run.
+      - Does not promote the skill without human review.
+

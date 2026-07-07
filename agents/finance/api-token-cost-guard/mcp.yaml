@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - models.openai.usage.read
+    - models.claude.usage.read
+  confirm:
+    - workspace.runs.pause
+    - workspace.model_usage.throttle
+  deny:
+    - secrets.read_raw
+

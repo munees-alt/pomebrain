@@ -1,0 +1,8 @@
+cases:
+  - id: checkout-redirect-flow
+    input: Write a script verifying that clicking the checkout button redirects the user successfully to the onboarding flow.
+    expected:
+      - Produces a Playwright test script.
+      - Checks navigation and visible success state.
+      - Does not require approval for sandbox execution.
+

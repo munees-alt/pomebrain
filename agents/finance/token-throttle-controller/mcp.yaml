@@ -1,0 +1,9 @@
+mcp:
+  allow:
+    - models.openai.usage.read
+    - models.claude.usage.read
+    - workspace.runs.terminate_on_quota
+  confirm: []
+  deny:
+    - secrets.read_raw
+

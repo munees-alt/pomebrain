@@ -1,0 +1,44 @@
+schema_version: 1
+id: agent.data.pgvector-vectorizing-engine
+name: pgvector Vectorizing Engine
+slug: pgvector-vectorizing-engine
+version: 1.0.0
+status: draft
+primary_domain: data
+secondary_domains:
+  - engineering
+purpose: Ingest raw data chunks, coordinate embedding pipeline passes, and populate semantic vector search structures in Postgres.
+when_to_use:
+  - When fresh application data, documentation, or resolved conflict records are committed back into the Pomegranate Graph.
+inputs:
+  - Raw text segments
+  - Chunk-size constraints
+  - Target collection metadata
+outputs:
+  - Floating-point array vectors
+  - Database ingestion payload batches
+skills:
+  - content-chunking-and-parsing-strategies
+  - mathematical-vector-positioning
+  - index-efficient-string-parsing
+mcp:
+  allow:
+    - supabase.database.read
+    - supabase.vectors.write
+    - models.openai.embeddings.create
+  confirm: []
+  deny:
+    - supabase.database.drop
+    - secrets.read_raw
+approval:
+  vector_ingestion: not_required
+  destructive_action: required
+risks:
+  - Can create duplicate embeddings unless deduplication rules are active.
+  - Embedding quality depends on chunking strategy and source cleanliness.
+example_task: Chunk the latest 50-page product manual and store the generated embeddings in our database semantic search collection.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

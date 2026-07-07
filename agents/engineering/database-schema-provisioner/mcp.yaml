@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.migrations.generate
+    - supabase.migrations.apply
+  deny:
+    - supabase.database.drop
+    - secrets.read_raw
+

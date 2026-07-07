@@ -1,0 +1,8 @@
+cases:
+  - id: weekly-token-budget
+    input: Calculate the exact dollar cost of the last three compilation runs and determine if we are on track to stay under our $50 weekly limit.
+    expected:
+      - Produces a provider-level cost ledger.
+      - Shows projected weekly run-rate.
+      - Requires approval before pausing or throttling active runs.
+

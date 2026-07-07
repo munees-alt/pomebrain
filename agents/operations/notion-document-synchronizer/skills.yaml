@@ -1,0 +1,8 @@
+skills:
+  - id: notion-api-layout-translation
+    purpose: Convert internal artifacts into Notion-compatible block structure.
+  - id: markdown-to-rich-text-compilation
+    purpose: Preserve markdown meaning in rich text.
+  - id: nesting-documentation-hierarchy-structures
+    purpose: Keep documentation navigable across projects and teams.
+

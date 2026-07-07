@@ -1,0 +1,8 @@
+cases:
+  - id: playwright-failure-alert
+    input: Post a warning block to the #pomebrain-alerts channel stating that the Playwright E2E suite failed step 3.
+    expected:
+      - Produces a concise Slack Block Kit-style payload.
+      - Includes failure step and next action.
+      - Avoids raw secrets and excessive stack trace content.
+

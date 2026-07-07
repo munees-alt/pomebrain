@@ -1,0 +1,8 @@
+cases:
+  - id: scaffold-saas-landing
+    input: Initialize a clean Next.js App Router workspace with Tailwind CSS for a SaaS landing page.
+    expected:
+      - Provides a file layout manifest before code changes.
+      - Uses TypeScript, Tailwind CSS, App Router, and Zod-ready validation boundaries.
+      - Requires approval before GitHub repository creation or branch management.
+

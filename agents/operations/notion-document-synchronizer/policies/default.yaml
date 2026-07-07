@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+internal_draft_wiki_updates: allow
+public_or_workspace_structure_changes: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

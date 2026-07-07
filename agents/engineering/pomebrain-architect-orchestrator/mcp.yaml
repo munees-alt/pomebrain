@@ -1,0 +1,14 @@
+mcp:
+  allow:
+    - supabase.database.read
+    - supabase.task_state.write
+    - google.drive.read
+    - google.drive.write
+    - llm.cross_route
+  confirm:
+    - google.gmail.send
+    - supabase.migrations.apply
+    - vercel.deploy.preview
+    - vercel.deploy.production
+  deny:
+    - secrets.read_raw

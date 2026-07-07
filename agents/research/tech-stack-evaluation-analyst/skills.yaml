@@ -1,0 +1,8 @@
+skills:
+  - id: security-vulnerability-evaluation
+    purpose: Review known package and repository safety warnings.
+  - id: package-integrity-indexing
+    purpose: Assess release history, maintenance signals, and ecosystem trust.
+  - id: licensing-compatibility-law-maps
+    purpose: Map license terms to project policy requirements as operational guidance.
+

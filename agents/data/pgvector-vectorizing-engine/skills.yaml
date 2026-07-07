@@ -1,0 +1,8 @@
+skills:
+  - id: content-chunking-and-parsing-strategies
+    purpose: Split source documents into useful semantic chunks.
+  - id: mathematical-vector-positioning
+    purpose: Prepare embedding vectors for semantic similarity search.
+  - id: index-efficient-string-parsing
+    purpose: Keep chunk metadata searchable and database-friendly.
+

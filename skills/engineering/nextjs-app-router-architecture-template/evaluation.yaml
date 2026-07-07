@@ -1,0 +1,14 @@
+cases:
+  - id: auth-billing-layout
+    input:
+      feature_modules:
+        - auth
+        - billing
+      global_components:
+        - navigation
+        - dashboard shell
+    expected:
+      - Uses src/app, src/components, and src/modules.
+      - Uses @/* imports.
+      - Avoids legacy Pages Router.
+

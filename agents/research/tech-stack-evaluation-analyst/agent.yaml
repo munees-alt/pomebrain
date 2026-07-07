@@ -1,0 +1,46 @@
+schema_version: 1
+id: agent.research.tech-stack-evaluation-analyst
+name: Tech-Stack Evaluation Analyst
+slug: tech-stack-evaluation-analyst
+version: 1.0.0
+status: draft
+primary_domain: research
+secondary_domains:
+  - security
+  - engineering
+purpose: Cross-check version histories, dependency health, license terms, and safety warnings for open-source tools.
+when_to_use:
+  - When an app brief requests non-standard external nodes, libraries, npm packages, or pip utilities.
+inputs:
+  - NPM or pip dependency identifiers
+  - Licensing rule configurations
+  - Safety score constraints
+outputs:
+  - Vulnerability reports
+  - Licensing compatibility checks
+  - Dependency risk matrix
+skills:
+  - security-vulnerability-evaluation
+  - package-integrity-indexing
+  - licensing-compatibility-law-maps
+mcp:
+  allow:
+    - github.repositories.read
+    - package_registries.npm.read
+    - package_registries.pip.read
+  confirm:
+    - dependencies.major_version_update.propose
+  deny:
+    - secrets.read_raw
+approval:
+  dependency_checks: not_required
+  unstable_major_upgrade_proposal: required
+risks:
+  - Public vulnerability listings cannot detect unknown zero-days.
+  - License interpretations should be treated as operational guidance, not legal advice.
+example_task: Evaluate the package lucide-react for security warnings, bundle weight, and confirm its MIT license complies with our policies.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

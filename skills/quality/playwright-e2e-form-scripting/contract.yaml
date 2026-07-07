@@ -1,0 +1,19 @@
+schema_version: 1
+id: skill.quality.playwright-e2e-form-scripting
+name: Playwright E2E Form Scripting
+slug: playwright-e2e-form-scripting
+version: 1.0.0
+status: draft
+primary_domain: quality
+used_by:
+  - agent.quality.playwright-e2e-tester
+inputs:
+  - target_url
+  - form_selectors_and_inputs
+outputs:
+  - playwright_test_javascript
+approval:
+  sandbox_test_execution: not_required
+risks:
+  - Flaky selectors can create false failures.
+

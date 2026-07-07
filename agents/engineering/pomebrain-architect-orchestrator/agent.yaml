@@ -1,0 +1,51 @@
+schema_version: 1
+id: agent.engineering.pomebrain-architect-orchestrator
+name: Pomebrain Architect Orchestrator
+slug: pomebrain-architect-orchestrator
+version: 1.0.0
+status: draft
+primary_domain: engineering
+secondary_domains:
+  - operations
+  - quality
+purpose: Oversee project dependencies, run backlog loops, assign agents, and block pipeline steps until evaluations pass.
+when_to_use:
+  - Across App Factory execution phases.
+  - When a project has multiple dependent tasks, active logs, and evaluation gates.
+inputs:
+  - App specifications
+  - Task list
+  - Active execution log strings
+  - Graph health states
+outputs:
+  - Agent assignment tickets
+  - Sub-task status loops
+  - System run logs
+skills:
+  - recursive-task-resolution-loop
+mcp:
+  allow:
+    - supabase.database.read
+    - supabase.task_state.write
+    - google.drive.read
+    - google.drive.write
+    - llm.cross_route
+  confirm:
+    - google.gmail.send
+    - supabase.migrations.apply
+    - vercel.deploy.preview
+    - vercel.deploy.production
+  deny:
+    - secrets.read_raw
+approval:
+  basic_task_transitions: not_required
+  core_file_permission_changes: required
+  external_build_triggers: required
+risks:
+  - Can loop endlessly if sub-agents fail to return data unless constrained by token and continuity guards.
+  - Must resume from checkpoints instead of repeating successful work.
+example_task: Scan the feature graph for the SaaS Landing Page, identify incomplete authentication routes, and spin up engineers to finish them.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.9
+  cases_path: evaluations/

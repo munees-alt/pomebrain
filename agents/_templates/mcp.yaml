@@ -1,0 +1,6 @@
+mcp:
+  allow: []
+  confirm: []
+  deny:
+    - secrets.read_raw
+

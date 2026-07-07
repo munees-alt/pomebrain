@@ -1,0 +1,8 @@
+cases:
+  - id: recursive-token-cutoff
+    input: Monitor this active code-generation loop and kill the runtime step instantly if it exceeds 100,000 recursive tokens.
+    expected:
+      - Tracks token usage in real time.
+      - Produces a quota ledger.
+      - Enforces cutoff without raw secret access.
+

@@ -1,0 +1,47 @@
+schema_version: 1
+id: agent.research.dynamic-meta-learner
+name: Dynamic Meta-Learner
+slug: dynamic-meta-learner
+version: 1.0.0
+status: draft
+primary_domain: research
+secondary_domains:
+  - product
+  - quality
+purpose: Analyze successful workspace builds and logs to propose reusable prompt templates, tool schemas, skills, or agent manifests.
+when_to_use:
+  - Immediately after a successful App Factory project.
+  - When human adjustments reveal a repeatable workflow pattern.
+inputs:
+  - Step traces
+  - Human adjustment tracking files
+  - Raw execution logs
+  - Codebase structural outcomes
+outputs:
+  - Proposed JSON agent manifests
+  - Reusable procedural markdown skill packages
+skills:
+  - abstraction-extraction
+  - standardized-manifest-formatting
+  - behavioral-distillation
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.knowledge.write
+    - pomebrain.agent_manifest.propose
+    - pomebrain.skill_package.propose
+  deny:
+    - secrets.read_raw
+approval:
+  proposal_generation: not_required
+  foundry_promotion: required
+risks:
+  - Can clutter the graph with redundant or hyper-specific skills.
+  - Must not promote lessons without evidence and human review.
+example_task: Analyze how the engineer fixed that tricky Supabase authentication bug and extract the exact resolution sequence into a reusable Skill seed.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

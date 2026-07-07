@@ -1,0 +1,7 @@
+mcp:
+  allow:
+    - slack.webhooks.send
+  confirm: []
+  deny:
+    - secrets.read_raw
+

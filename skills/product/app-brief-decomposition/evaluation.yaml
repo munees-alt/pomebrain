@@ -1,0 +1,12 @@
+cases:
+  - id: finance-dashboard-brief
+    input:
+      raw_user_prompt: Build a finance tracker dashboard for a small team.
+      target_tech_stack:
+        - Next.js
+        - Supabase
+    expected:
+      - Identifies at least three likely data entities.
+      - Maps login-to-dashboard workflow.
+      - Separates MVP from later scope.
+

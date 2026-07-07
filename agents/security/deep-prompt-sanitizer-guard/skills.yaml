@@ -1,0 +1,8 @@
+skills:
+  - id: threat-token-filtering
+    purpose: Detect and neutralize suspicious prompt-control language.
+  - id: indirect-injection-profiling
+    purpose: Identify hidden instructions embedded in external artifacts.
+  - id: structural-containment-checks
+    purpose: Keep untrusted payloads separated from trusted system instructions.
+

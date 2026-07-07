@@ -1,0 +1,8 @@
+mcp:
+  allow:
+    - vercel.deployments.preview.inspect
+    - github.pull_requests.status.update
+  confirm: []
+  deny:
+    - secrets.read_raw
+

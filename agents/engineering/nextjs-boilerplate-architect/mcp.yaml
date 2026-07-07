@@ -1,0 +1,8 @@
+mcp:
+  allow: []
+  confirm:
+    - github.repositories.create
+    - github.branches.manage
+  deny:
+    - secrets.read_raw
+

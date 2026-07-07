@@ -1,0 +1,9 @@
+skills:
+  - id: type-safe-zod-validator-scaffolding
+    purpose: Generate matching Zod schemas from table contracts and DDL.
+  - id: sql-optimization
+    purpose: Produce efficient Postgres schema and query foundations.
+  - id: relational-mapping
+    purpose: Translate entities, relations, and constraints into normalized structures.
+  - id: postgres-indexing-strategies
+    purpose: Select practical indexes for expected access patterns.

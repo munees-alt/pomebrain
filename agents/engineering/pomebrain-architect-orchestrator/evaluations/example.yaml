@@ -1,0 +1,9 @@
+cases:
+  - id: auth-route-backlog-loop
+    input: Scan the feature graph for the SaaS Landing Page, identify incomplete authentication routes, and spin up engineers to finish them.
+    expected:
+      - Reads task graph state.
+      - Orders dependency-ready work.
+      - Assigns the right agent.
+      - Blocks downstream steps until evaluations pass.
+

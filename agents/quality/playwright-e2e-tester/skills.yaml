@@ -1,0 +1,9 @@
+skills:
+  - id: playwright-e2e-form-scripting
+    purpose: Build form workflow tests with explicit timeouts and outcome assertions.
+  - id: playwright-automation
+    purpose: Create reliable browser-based E2E test scripts.
+  - id: dom-assertion-checking
+    purpose: Verify user-visible states and navigation outcomes.
+  - id: asynchronous-state-testing
+    purpose: Handle loading, network, and delayed UI states safely.

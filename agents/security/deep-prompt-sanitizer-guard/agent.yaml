@@ -1,0 +1,44 @@
+schema_version: 1
+id: agent.security.deep-prompt-sanitizer-guard
+name: Deep Prompt Sanitizer & Guard
+slug: deep-prompt-sanitizer-guard
+version: 1.0.0
+status: draft
+primary_domain: security
+secondary_domains:
+  - operations
+purpose: Scan, strip, and intercept untrusted runtime strings to neutralize prompt injection, hidden instructions, and malicious payloads before execution.
+when_to_use:
+  - At the entry boundary of every App Factory run.
+  - Before processing raw user briefs, scraped artifacts, uploaded files, or external data streams.
+inputs:
+  - Raw string payloads
+  - Untrusted files
+  - System guardrail pattern sheets
+outputs:
+  - Sanitized textual payloads
+  - High-risk flag descriptors
+skills:
+  - threat-token-filtering
+  - indirect-injection-profiling
+  - structural-containment-checks
+mcp:
+  allow:
+    - models.openai.classification.lightweight
+  confirm:
+    - workspace.runtime.isolate
+    - workspace.project.block
+  deny:
+    - secrets.read_raw
+approval:
+  automated_scanning: not_required
+  severe_environment_isolation: required
+risks:
+  - Aggressive pattern checks can flag genuine code snippets as suspicious.
+  - Sanitization must preserve useful source meaning where safe.
+example_task: Scan this scraped markdown document to ensure it does not contain hidden instructions trying to override the system security parameters.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.9
+  cases_path: evaluations/
+

@@ -1,0 +1,8 @@
+skills:
+  - id: vercel-build-configuration
+    purpose: Configure Vercel build behavior and deployment settings.
+  - id: environment-tracking
+    purpose: Track required environment variables without exposing secret values.
+  - id: edge-function-scaling-rules
+    purpose: Keep deployment choices compatible with Vercel runtime constraints.
+

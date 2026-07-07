@@ -1,0 +1,45 @@
+schema_version: 1
+id: agent.quality.logic-reconciliation-engine
+name: Logic Reconciliation Engine
+slug: logic-reconciliation-engine
+version: 1.0.0
+status: draft
+primary_domain: quality
+secondary_domains:
+  - research
+  - operations
+purpose: Detect semantic duplication, overlapping features, and version conflicts across graph nodes, then prepare conflict review proposals.
+when_to_use:
+  - During ingestion whenever a new skill, agent, or decision node may conflict with existing graph entries.
+inputs:
+  - Incoming node manifests
+  - Active database matching entries
+  - Validation criteria parameters
+outputs:
+  - Structural evaluation summaries
+  - Conflict node link manifests
+  - Supersedes edge update proposals
+skills:
+  - semantic-contradiction-reconciliation
+  - semantic-comparison-analytics
+  - logic-verification-mapping
+  - structural-overlap-pruning
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.conflicts.write
+    - supabase.edges.supersedes.update
+  deny:
+    - secrets.read_raw
+approval:
+  comparison_generation: not_required
+  winner_confirmation: required
+risks:
+  - Misconfiguration can mark a specialized agent as a duplicate of a generic one.
+  - Human review is needed before supersession becomes canonical.
+example_task: Compare this newly submitted Next.js configuration against our older v13 setup, evaluate the structural differences, and generate a conflict map for the workspace inbox.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.9
+  cases_path: evaluations/

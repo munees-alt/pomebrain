@@ -1,0 +1,8 @@
+cases:
+  - id: finance-tracker-brief
+    input: Build a finance tracker dashboard that works with simple mock metrics.
+    expected:
+      - Produces a strict feature specification matrix.
+      - Separates must-have and optional scope.
+      - Requires user approval before engineering routing.
+

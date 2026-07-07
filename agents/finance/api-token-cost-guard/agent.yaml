@@ -1,0 +1,46 @@
+schema_version: 1
+id: agent.finance.api-token-cost-guard
+name: API Token Cost Guard
+slug: api-token-cost-guard
+version: 1.0.0
+status: draft
+primary_domain: finance
+secondary_domains:
+  - operations
+purpose: Monitor LLM consumption, track provider token usage, and project monthly run-rates against budget caps.
+when_to_use:
+  - During every active App Factory execution run.
+  - Immediately after build, test, or compilation loops that use model providers.
+inputs:
+  - Raw token usage metrics
+  - Active pricing tables for model providers
+  - Project budget limits
+outputs:
+  - Cost breakdown ledger
+  - Consumption velocity warnings
+  - Cost-per-run analysis
+skills:
+  - financial-run-rate-projection
+  - cross-provider-token-conversion-math
+  - anomaly-detection
+mcp:
+  allow:
+    - models.openai.usage.read
+    - models.claude.usage.read
+  confirm:
+    - workspace.runs.pause
+    - workspace.model_usage.throttle
+  deny:
+    - secrets.read_raw
+approval:
+  usage_tracking: not_required
+  budget_pause_or_throttle: required_at_90_percent
+risks:
+  - Delayed upstream usage reporting can skew calculations.
+  - Pricing table drift must be refreshed before exact billing decisions.
+example_task: Calculate the exact dollar cost of the last three compilation runs and determine if we are on track to stay under our $50 weekly limit.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

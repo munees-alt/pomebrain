@@ -1,0 +1,44 @@
+schema_version: 1
+id: agent.data.analytical-pipeline-builder
+name: Analytical Pipeline Builder
+slug: analytical-pipeline-builder
+version: 1.0.0
+status: draft
+primary_domain: data
+secondary_domains:
+  - engineering
+purpose: Provision database views, event schemas, and performance funnel aggregations for product dashboards.
+when_to_use:
+  - During feature construction when analytics, conversions, usage trends, retention, or funnels are required.
+inputs:
+  - Log schemas
+  - Target conversion metric specifications
+  - Dashboard chart requirements
+outputs:
+  - Optimized SQL aggregation queries
+  - Calculated metric view definitions
+skills:
+  - time-series-aggregation
+  - relational-database-views-management
+  - analytical-query-optimization
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.views.create
+    - supabase.views.update
+  deny:
+    - supabase.database.drop
+    - secrets.read_raw
+approval:
+  database_view_execution: required
+  destructive_action: required
+risks:
+  - Can create resource-intensive multi-join queries on high-volume data.
+  - Metrics can mislead if event definitions are incomplete.
+example_task: Create a query pipeline that calculates daily active user retention cohorts over rolling 7-day intervals.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.85
+  cases_path: evaluations/
+

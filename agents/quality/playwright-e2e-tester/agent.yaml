@@ -1,0 +1,44 @@
+schema_version: 1
+id: agent.quality.playwright-e2e-tester
+name: Playwright E2E Tester
+slug: playwright-e2e-tester
+version: 1.0.0
+status: draft
+primary_domain: quality
+secondary_domains:
+  - engineering
+purpose: Draft and run end-to-end integration test suites across multiple viewport configurations.
+when_to_use:
+  - During the run tests and evaluations cycle.
+  - Before any production deployment attempt.
+inputs:
+  - App route structure
+  - User interaction flows
+  - Mock authentication credentials
+outputs:
+  - Playwright test scripts
+  - Execution pass/fail logs
+  - Visual regression error reports
+skills:
+  - playwright-e2e-form-scripting
+  - playwright-automation
+  - dom-assertion-checking
+  - asynchronous-state-testing
+mcp:
+  allow:
+    - vercel.deployments.preview.inspect
+    - github.pull_requests.status.update
+  confirm: []
+  deny:
+    - secrets.read_raw
+approval:
+  sandbox_test_runs: not_required
+  production_changes: required
+risks:
+  - Flaky network states can cause false-negative test failures.
+  - Test credentials must be mock or scoped test-only credentials.
+example_task: Write a script verifying that clicking the checkout button redirects the user successfully to the onboarding flow.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/

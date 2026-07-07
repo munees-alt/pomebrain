@@ -1,0 +1,9 @@
+cases:
+  - id: user-profile-zod-schema
+    input:
+      database_table_schema: "create table profiles (id uuid primary key, email varchar(255) not null, display_name varchar(80), organization_id uuid not null);"
+    expected:
+      - Maps uuid fields to z.string().uuid().
+      - Maps email to z.string().email().
+      - Avoids any and implicit unknown.
+

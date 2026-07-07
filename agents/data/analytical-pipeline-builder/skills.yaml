@@ -1,0 +1,8 @@
+skills:
+  - id: time-series-aggregation
+    purpose: Build reliable daily, weekly, and cohort-based metrics.
+  - id: relational-database-views-management
+    purpose: Design maintainable SQL views for dashboard consumption.
+  - id: analytical-query-optimization
+    purpose: Reduce unnecessary scans, joins, and slow dashboard queries.
+

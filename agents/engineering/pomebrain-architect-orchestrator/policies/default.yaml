@@ -1,0 +1,8 @@
+knowledge_promotion: confirm
+basic_task_transitions: allow
+core_file_permission_changes: confirm
+external_build_triggers: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

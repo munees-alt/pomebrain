@@ -1,0 +1,10 @@
+mcp:
+  allow:
+    - supabase.database.read
+  confirm:
+    - supabase.views.create
+    - supabase.views.update
+  deny:
+    - supabase.database.drop
+    - secrets.read_raw
+

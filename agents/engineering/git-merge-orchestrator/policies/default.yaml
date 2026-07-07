@@ -1,0 +1,7 @@
+knowledge_promotion: confirm
+staging_pr_creation: allow
+final_merge_to_main: confirm
+production_deploy: confirm
+destructive_action: confirm
+raw_secret_access: deny
+

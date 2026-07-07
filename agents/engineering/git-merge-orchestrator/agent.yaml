@@ -1,0 +1,43 @@
+schema_version: 1
+id: agent.engineering.git-merge-orchestrator
+name: Git Merge Orchestrator
+slug: git-merge-orchestrator
+version: 1.0.0
+status: draft
+primary_domain: engineering
+secondary_domains:
+  - operations
+purpose: Review generated code modifications, assemble file diffs, manage staging branches, and coordinate the PR lifecycle.
+when_to_use:
+  - Throughout active construction loops inside the isolated build runner environment.
+  - When generated changes need PR packaging and merge readiness checks.
+inputs:
+  - Sandbox generated file updates
+  - Reference trunk branch state
+outputs:
+  - GitHub Pull Requests
+  - Merge conflict maps
+skills:
+  - git-diff-calculation
+  - branch-synchronization-strategy
+  - branch-conflict-isolation
+mcp:
+  allow:
+    - github.pull_requests.create
+    - github.branches.manage
+  confirm:
+    - github.pull_requests.merge
+  deny:
+    - secrets.read_raw
+approval:
+  staging_pr_creation: not_required
+  final_merge_to_main: required
+risks:
+  - Cannot fix deep architectural file changes without escalating to a human or the NextJS Boilerplate Architect.
+  - Merge decisions can conflict with unreviewed architecture changes.
+example_task: Create a pull request adding the newly generated authorization components to the feature/auth working branch.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/
+

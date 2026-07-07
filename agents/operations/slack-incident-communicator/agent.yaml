@@ -1,0 +1,41 @@
+schema_version: 1
+id: agent.operations.slack-incident-communicator
+name: Slack Incident Communicator
+slug: slack-incident-communicator
+version: 1.0.0
+status: draft
+primary_domain: operations
+secondary_domains:
+  - quality
+purpose: Format and broadcast operational logs, status updates, test failures, and approval triggers to Slack.
+when_to_use:
+  - During active development pipelines when real team members need blocking issue or deployment status notifications.
+inputs:
+  - Execution error trace text
+  - Target channel configurations
+  - Human-approval webhook parameters
+outputs:
+  - Slack Block Kit payloads
+  - Interactive call-to-action cards
+skills:
+  - block-kit-layout-building
+  - asynchronous-incident-communication
+  - log-stack-trace-minimization
+mcp:
+  allow:
+    - slack.webhooks.send
+  confirm: []
+  deny:
+    - secrets.read_raw
+approval:
+  pipeline_notifications: not_required
+  channel_configuration_changes: required
+risks:
+  - Can create alarm fatigue if repeated pipeline failures are not suppressed.
+  - Error traces must be minimized to avoid leaking sensitive data.
+example_task: Post a warning block to the #pomebrain-alerts channel stating that the Playwright E2E suite failed step 3.
+conflicts_with: []
+evaluations:
+  minimum_score: 0.8
+  cases_path: evaluations/
+

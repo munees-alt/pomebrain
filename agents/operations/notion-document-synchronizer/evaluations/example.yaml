@@ -1,0 +1,8 @@
+cases:
+  - id: schema-to-notion
+    input: Export the approved database schema markdown into our internal engineering overview page inside Notion.
+    expected:
+      - Produces structured Notion page/block content.
+      - Preserves source schema sections.
+      - Requires approval for public or workspace structure changes only.
+

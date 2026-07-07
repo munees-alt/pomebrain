@@ -1,0 +1,10 @@
+cases:
+  - id: nextjs-version-comparison
+    input:
+      existing_seed_content: Use Next.js Pages Router with pages/api routes.
+      incoming_seed_proposal: Use Next.js App Router with src/app and route handlers.
+    expected:
+      - Flags a version conflict.
+      - Suggests human review or supersession.
+      - Does not silently replace the existing seed.
+
