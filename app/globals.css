@@ -155,6 +155,28 @@ button { color: inherit; }
 .outline-action { width: 100%; margin-top: 22px; border: 1px solid var(--line-strong); background: transparent; border-radius: 5px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #a99ca0; font-size: 9px; cursor: pointer; }
 .outline-action:hover { border-color: var(--gold); color: var(--gold); }
 
+.pomegranate-visual { position: relative; min-height: 460px; margin-top: 18px; display: grid; place-items: center; }
+.pomegranate-visual svg { width: min(100%, 420px); height: auto; overflow: visible; }
+.aril { cursor: pointer; transition: transform .2s ease, opacity .2s ease; }
+.aril circle:first-child { filter: drop-shadow(0 0 6px rgba(0,0,0,.35)); }
+.aril-selected { transform: scale(1.35); }
+.aril-dimmed { opacity: .16; }
+.aril-hit-layer { position: absolute; inset: 0; border: 0; background: transparent; pointer-events: none; }
+.aril-hitbox { position: absolute; width: 18px; height: 18px; margin: -9px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; padding: 0; }
+.pomegranate-legend { display: flex; gap: 18px; justify-content: center; margin-top: 6px; color: #9d9094; font-size: 10px; }
+.pomegranate-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.legend-agent { background: var(--rose); }
+.legend-skill { background: var(--gold); }
+
+.roadmap-card { margin-top: 18px; padding: 23px; }
+.roadmap-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.roadmap-item { position: relative; padding: 16px 40px 16px 16px; border: 1px solid var(--line); background: rgba(22,15,18,.72); }
+.roadmap-item span { display: block; color: var(--gold); font: 700 8px var(--mono); letter-spacing: .13em; }
+.roadmap-item strong { display: block; margin: 6px 0; font: 500 14px var(--serif); }
+.roadmap-item p { margin: 0; color: #74696c; font-size: 9px; line-height: 1.5; }
+.roadmap-item svg { position: absolute; right: 14px; top: 16px; color: #5c5054; }
+
 .foundation-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
 .foundation-card { position: relative; min-height: 128px; display: grid; grid-template-columns: 38px 1fr; gap: 13px; padding: 18px; border: 1px solid var(--line); background: rgba(22,15,18,.72); }
 .icon-box { width: 36px; height: 36px; display: grid; place-items: center; color: var(--gold); border: 1px solid rgba(229,173,56,.2); background: rgba(229,173,56,.05); border-radius: 6px; }
