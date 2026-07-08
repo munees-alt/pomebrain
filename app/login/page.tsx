@@ -45,6 +45,31 @@ export default function LoginPage() {
     }
   }
 
+  async function continueWithGoogle() {
+    setBusy(true);
+    setMessage("");
+    setMessageTone("error");
+
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const origin = window.location.origin;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        setMessage(error.message);
+        setBusy(false);
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Google sign-in failed.");
+      setBusy(false);
+    }
+  }
+
   return (
     <main className="login-page">
       <section className="login-hero" aria-label="Pomebrain access">
@@ -114,6 +139,13 @@ export default function LoginPage() {
                 : "Sign up once. Pomebrain will provision your workspace automatically."}
             </p>
           </div>
+
+          <button type="button" className="google-login-button" disabled={busy} onClick={() => void continueWithGoogle()}>
+            {busy ? <Loader2 className="spin" size={16} /> : <Sparkles size={16} />}
+            Continue with Google
+          </button>
+
+          <div className="login-divider"><span>or use email</span></div>
 
           <div className="auth-mode-switch" role="tablist" aria-label="Authentication mode">
             <button
