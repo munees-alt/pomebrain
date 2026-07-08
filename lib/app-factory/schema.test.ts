@@ -40,6 +40,17 @@ describe("App Factory Phase 4 schema assets", () => {
     expect(sql).toContain("IF v_count <> 1 THEN");
   });
 
+  it("audits graph-core seed, version, fibre, and project mutations", () => {
+    const sql = readFileSync(join(process.cwd(), "supabase/migrations/03_audit_graph_core_tables.sql"), "utf8");
+
+    expect(sql).toContain("CREATE TRIGGER audit_seeds");
+    expect(sql).toContain("CREATE TRIGGER audit_seed_versions");
+    expect(sql).toContain("CREATE TRIGGER audit_fibres");
+    expect(sql).toContain("CREATE TRIGGER audit_projects");
+    expect(sql).toContain("SECURITY DEFINER");
+    expect(sql).not.toMatch(/CREATE POLICY\s+\w+\s+ON public\.audit_events\s+FOR\s+(UPDATE|DELETE)/i);
+  });
+
   it("provisions workspace_id into auth app metadata, not user metadata", () => {
     const sql = readFileSync(join(process.cwd(), "supabase/migrations/02_auth_workspace_provisioning.sql"), "utf8");
 

@@ -87,6 +87,16 @@ export function PomegranateView() {
         <article><span>DOMAINS</span><strong>{String(domains).padStart(2, "0")}</strong><small>Coverage areas</small></article>
       </section>
 
+      {loading && ordered.length === 0 ? (
+        <section className="graph-card panel-card">
+          <div className="panel-heading">
+            <div><span className="section-label">POMEGRANATE</span><h2>Loading Seed Library…</h2></div>
+            <div className="graph-legend"><span className="live-pulse" /> Querying Supabase</div>
+          </div>
+          <p>Fetching workspace-scoped agents, skills, and fibres.</p>
+        </section>
+      ) : null}
+
       {error ? (
         <section className="graph-card panel-card">
           <div className="panel-heading">

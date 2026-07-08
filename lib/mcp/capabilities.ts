@@ -228,6 +228,9 @@ export const LlmCrossRouteSchema = z
         preferredProviders: z.array(z.enum(["claude", "openai", "gemini"])).min(1).max(3),
         taskClass: z.enum(["brief", "code", "research", "review", "summarize", "reasoning"]),
         complexity: z.enum(["low", "medium", "high"]),
+        input: z.string().min(1).max(20000),
+        systemPrompt: z.string().min(1).max(8000).optional(),
+        maxOutputTokens: z.number().int().positive().max(4096).default(512),
         maxBudgetUsd: z.number().positive().max(500).optional(),
       })
       .strict(),

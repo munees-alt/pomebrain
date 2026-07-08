@@ -1,5 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { capabilityRegistry, parseCapabilityRequest } from "@/lib/mcp/capabilities";
+import {
+  executeModelRouterCapability,
+  resetModelProviderFetchForTest,
+  setModelProviderFetchForTest,
+} from "@/lib/mcp/connectors/model-router.server";
 import { executeGovernedCapability } from "@/lib/mcp/executor.server";
 
 const metadata = {
@@ -8,6 +13,11 @@ const metadata = {
 };
 
 describe("Pomebrain MCP capability gateway", () => {
+  afterEach(() => {
+    resetModelProviderFetchForTest();
+    vi.unstubAllEnvs();
+  });
+
   it("maps the core capability matrix to approval policies", () => {
     expect(capabilityRegistry["supabase.database.read"].approvalPolicy).toBe("auto_run_allowed");
     expect(capabilityRegistry["supabase.task_state.write"].approvalPolicy).toBe("auto_run_allowed");
@@ -115,6 +125,7 @@ describe("Pomebrain MCP capability gateway", () => {
           preferredProviders: ["claude", "openai"],
           taskClass: "reasoning",
           complexity: "high",
+          input: "Explain why the Pomebrain router exists in one sentence.",
           maxBudgetUsd: 10,
         },
         metadata: {
@@ -148,6 +159,74 @@ describe("Pomebrain MCP capability gateway", () => {
     expect(result.status).toBe("rejected");
     if (result.status === "rejected") {
       expect(result.message).toMatch(/rejected/i);
+    }
+  });
+
+  it("invokes OpenAI through the cross-route capability when OpenAI is selected", async () => {
+    vi.stubEnv("OPENAI_API_KEY", "test-openai-key");
+    const providerFetch = vi.fn(async () => {
+      return new Response(
+        JSON.stringify({
+          output_text: "Mocked OpenAI model response.",
+          usage: { input_tokens: 8, output_tokens: 5 },
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    });
+    setModelProviderFetchForTest(providerFetch as typeof fetch);
+
+    const result = await executeModelRouterCapability({
+      capabilityId: "llm.cross_route",
+      payload: {
+        preferredProviders: ["openai"],
+        taskClass: "summarize",
+        complexity: "low",
+        input: "Say hello from the router.",
+        maxOutputTokens: 64,
+      },
+      metadata: {
+        triggeredByAgent: "Pomebrain Architect Orchestrator",
+        associatedPodId: "engineering",
+      },
+    });
+
+    expect(result.status).toBe("completed");
+    if (result.status === "completed") {
+      expect(result.routedTo.provider).toBe("openai");
+      expect(result.text).toBe("Mocked OpenAI model response.");
+    }
+    expect(providerFetch).toHaveBeenCalledWith(
+      "https://api.openai.com/v1/responses",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({ Authorization: "Bearer test-openai-key" }),
+      }),
+    );
+  });
+
+  it("returns a structured missing-key error without silently falling back providers", async () => {
+    vi.stubEnv("OPENAI_API_KEY", "test-openai-key");
+
+    const result = await executeModelRouterCapability({
+      capabilityId: "llm.cross_route",
+      payload: {
+        preferredProviders: ["claude", "openai"],
+        taskClass: "reasoning",
+        complexity: "low",
+        input: "This should not fall back to OpenAI.",
+        maxOutputTokens: 64,
+      },
+      metadata: {
+        triggeredByAgent: "Pomebrain Architect Orchestrator",
+        associatedPodId: "engineering",
+      },
+    });
+
+    expect(result.status).toBe("model_call_failed");
+    if (result.status === "model_call_failed") {
+      expect(result.routedTo?.provider).toBe("claude");
+      expect(result.error.code).toBe("missing_api_key");
+      expect(result.error.message).toMatch(/not fall back/i);
     }
   });
 });
