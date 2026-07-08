@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, Search, Sparkles } from "lucide-react";
-import { useBrainSeeds, type LiveSeed } from "@/lib/hooks/use-brain-seeds";
+import { Search } from "lucide-react";
+import { useBrainSeeds } from "@/lib/hooks/use-brain-seeds";
+import { seedDomain, seedName } from "@/lib/seed-display";
+import { SeedInspector } from "@/components/seed-inspector";
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const CENTER = 200;
@@ -18,32 +20,6 @@ function arilLayout(index: number, total: number): ArilPosition {
     y: CENTER + radius * Math.sin(angle),
   };
 }
-
-function seedName(seed: LiveSeed) {
-  const content = seed.content as { name?: string } | null;
-  if (content?.name) return content.name;
-  return seed.slug
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function seedSummary(seed: LiveSeed) {
-  const content = seed.content as { purpose?: string; description?: string; example_task?: string } | null;
-  return content?.purpose ?? content?.description ?? content?.example_task ?? "No summary recorded yet.";
-}
-
-function seedDomain(seed: LiveSeed) {
-  const content = seed.content as { primary_domain?: string; domain?: string } | null;
-  return content?.primary_domain ?? content?.domain ?? "general";
-}
-
-const ROADMAP = [
-  { phase: "Phase 2", title: "Agent Foundry", detail: "Create and edit agent manifests from the UI, not just the filesystem." },
-  { phase: "Phase 3", title: "Conflict Inbox", detail: "Review contradictions between seeds before they reach retrieval." },
-  { phase: "Phase 5", title: "Live Connectors", detail: "MCP adapters execute for real, gated by approval policy." },
-];
 
 export function PomegranateView() {
   const { seeds, fibres, loading, error } = useBrainSeeds();
@@ -217,54 +193,9 @@ export function PomegranateView() {
             </div>
           </section>
 
-          <aside className="seed-inspector panel-card">
-            {selected ? (
-              <>
-                <div className="inspector-topline">
-                  <span className={`kind-badge kind-${selected.type}`}>{selected.type}</span>
-                  <span className={`seed-status status-${selected.status}`}>{selected.status}</span>
-                </div>
-                <h2>{seedName(selected)}</h2>
-                <p>{seedSummary(selected)}</p>
-
-                <dl className="seed-facts">
-                  <div><dt>Domain</dt><dd>{seedDomain(selected)}</dd></div>
-                  <div><dt>Slug</dt><dd>{selected.slug}</dd></div>
-                  <div><dt>Connections</dt><dd>{selectedFibreCount}</dd></div>
-                  <div><dt>Created</dt><dd>{new Date(selected.createdAt).toLocaleDateString()}</dd></div>
-                </dl>
-
-                {Array.isArray((selected.content as { skills?: string[] } | null)?.skills) ? (
-                  <div className="tag-list">
-                    {((selected.content as { skills?: string[] }).skills ?? []).map((tag) => (
-                      <span key={tag}>#{tag}</span>
-                    ))}
-                  </div>
-                ) : null}
-              </>
-            ) : (
-              <p>Select an aril to inspect a seed.</p>
-            )}
-          </aside>
+          <SeedInspector seed={selected} connections={selectedFibreCount} emptyLabel="Select an aril to inspect a seed." />
         </div>
       ) : null}
-
-      <section className="graph-card panel-card roadmap-card">
-        <div className="panel-heading">
-          <div><span className="section-label">GOING FORWARD</span><h2>What grows next</h2></div>
-          <div className="graph-legend"><Sparkles size={14} /> Roadmap</div>
-        </div>
-        <div className="roadmap-row">
-          {ROADMAP.map((item) => (
-            <article key={item.title} className="roadmap-item">
-              <span>{item.phase}</span>
-              <strong>{item.title}</strong>
-              <p>{item.detail}</p>
-              <ArrowRight size={14} />
-            </article>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

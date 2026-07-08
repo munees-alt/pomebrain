@@ -98,7 +98,7 @@ export function CrownConsole({ onOpenBrain, userEmail = "Unknown user", workspac
               aria-label="What do you want Pomebrain to build?"
             />
             <div className="composer-footer">
-              <div className="model-select" title="Provider routing arrives with live execution">
+              <div className="model-select" title="This preview plans with local logic. Live runs route through llm.cross_route to Claude or OpenAI by task complexity.">
                 <span className="model-mark">P</span>
                 Pomebrain routing
                 <ChevronDown size={14} />
