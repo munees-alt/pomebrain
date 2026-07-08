@@ -1,7 +1,7 @@
 import { Brain, Crown, Database, PlugZap, Settings2, Sprout } from "lucide-react";
 import { PomegranateMark } from "@/components/pomegranate-mark";
 
-export type AppView = "brain" | "crown" | "seeds";
+export type AppView = "brain" | "crown" | "seeds" | "agents" | "connectors";
 
 type AppSidebarProps = {
   activeView: AppView;
@@ -56,18 +56,26 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
             <small>Every agent and skill, visually</small>
           </span>
         </button>
-        <button className="nav-disabled" type="button" disabled>
+        <button
+          className={activeView === "agents" ? "active" : ""}
+          onClick={() => onViewChange("agents")}
+          type="button"
+        >
           <Database size={18} />
           <span>
             Agent Foundry
-            <small>Arrives in Phase 2</small>
+            <small>Assignable builder registry</small>
           </span>
         </button>
-        <button className="nav-disabled" type="button" disabled>
+        <button
+          className={activeView === "connectors" ? "active" : ""}
+          onClick={() => onViewChange("connectors")}
+          type="button"
+        >
           <PlugZap size={18} />
           <span>
             Connectors
-            <small>Arrives in Phase 5</small>
+            <small>MCP capability control</small>
           </span>
         </button>
       </nav>
@@ -85,4 +93,3 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
     </aside>
   );
 }
-

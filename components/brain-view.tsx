@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, Check, Crown, GitBranch, Layers3, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { PomegranateMark } from "@/components/pomegranate-mark";
 import { SeedInspector } from "@/components/seed-inspector";
-import { useBrainSeeds, type LiveSeed } from "@/lib/hooks/use-brain-seeds";
+import { useBrainSeeds, type LiveFibre, type LiveSeed } from "@/lib/hooks/use-brain-seeds";
 import { seedDomain, seedName, seedSummary } from "@/lib/seed-display";
 
 type BrainViewProps = {
@@ -12,18 +12,48 @@ type BrainViewProps = {
 };
 
 const graphTones = ["rose", "gold", "cream", "blue", "violet", "green", "red"];
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+const typeLobes: Record<string, { x: number; y: number; tone: string }> = {
+  agent: { x: 29, y: 32, tone: "rose" },
+  skill: { x: 58, y: 28, tone: "gold" },
+  connector: { x: 75, y: 54, tone: "blue" },
+  tool: { x: 74, y: 68, tone: "blue" },
+  project: { x: 48, y: 73, tone: "red" },
+  evidence: { x: 28, y: 66, tone: "green" },
+  decision: { x: 42, y: 45, tone: "violet" },
+  policy: { x: 56, y: 52, tone: "cream" },
+  evaluation: { x: 39, y: 58, tone: "green" },
+  knowledge: { x: 60, y: 44, tone: "cream" },
+};
 
 function buildGraphPositions(seeds: LiveSeed[]) {
+  const typeCounts = new Map<string, number>();
+
   return seeds.reduce<Record<string, { x: number; y: number; tone: string }>>((positions, seed, index) => {
-    const angle = (index / Math.max(seeds.length, 1)) * Math.PI * 2 - Math.PI / 2;
-    const radius = index % 2 === 0 ? 42 : 35;
+    const lobe = typeLobes[seed.type] ?? { x: 50, y: 50, tone: graphTones[index % graphTones.length] };
+    const lobeIndex = typeCounts.get(seed.type) ?? 0;
+    typeCounts.set(seed.type, lobeIndex + 1);
+
+    const angle = lobeIndex * GOLDEN_ANGLE;
+    const radius = 4 + Math.sqrt(lobeIndex + 0.5) * 5.4;
     positions[seed.id] = {
-      x: 50 + Math.cos(angle) * radius,
-      y: 48 + Math.sin(angle) * radius,
-      tone: graphTones[index % graphTones.length],
+      x: Math.max(8, Math.min(92, lobe.x + Math.cos(angle) * radius)),
+      y: Math.max(10, Math.min(88, lobe.y + Math.sin(angle) * radius)),
+      tone: lobe.tone,
     };
     return positions;
   }, {});
+}
+
+function fibrePath(fibre: LiveFibre, positions: Record<string, { x: number; y: number }>) {
+  const source = positions[fibre.sourceId];
+  const target = positions[fibre.targetId];
+  if (!source || !target) return null;
+
+  const controlX = (source.x + target.x) / 2;
+  const controlY = (source.y + target.y) / 2 - 8;
+
+  return `M ${source.x} ${source.y} Q ${controlX} ${controlY} ${target.x} ${target.y}`;
 }
 
 export function BrainView({ onOpenCrown }: BrainViewProps) {
@@ -43,6 +73,10 @@ export function BrainView({ onOpenCrown }: BrainViewProps) {
     const needle = query.toLowerCase();
     return seeds.filter((seed) => `${seedName(seed)} ${seedSummary(seed)} ${seedDomain(seed)}`.toLowerCase().includes(needle));
   }, [query, seeds]);
+  const visibleFibres = useMemo(() => {
+    const seedIds = new Set(seeds.map((seed) => seed.id));
+    return fibres.filter((fibre) => seedIds.has(fibre.sourceId) && seedIds.has(fibre.targetId));
+  }, [fibres, seeds]);
 
   return (
     <div className="view-scroll brain-page">
@@ -107,9 +141,9 @@ export function BrainView({ onOpenCrown }: BrainViewProps) {
           <div className="panel-heading">
             <div>
               <span className="section-label">BRAIN TOPOLOGY</span>
-              <h2>Foundation pod</h2>
+              <h2>Live topology</h2>
             </div>
-            <div className="graph-legend"><span className="live-pulse" /> Live structure</div>
+            <div className="graph-legend"><span className="live-pulse" /> {visibleFibres.length} real fibres</div>
           </div>
 
           <div className="graph-search-wrap">
@@ -123,23 +157,48 @@ export function BrainView({ onOpenCrown }: BrainViewProps) {
             {query && <kbd>{searchResults.length} found</kbd>}
           </div>
 
-          <div className="seed-graph" role="group" aria-label="Foundation seed graph">
+          <div className="seed-graph topology-graph" role="group" aria-label="Live pomegranate topology graph">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              {seeds.map((seed) => {
-                const position = graphPositions[seed.id];
-                return (
-                  <line
-                    key={seed.id}
-                    x1="50"
-                    y1="48"
-                    x2={position.x}
-                    y2={position.y}
-                    className={selectedId === seed.id ? "edge-active" : ""}
-                  />
-                );
+              <defs>
+                <radialGradient id="topologySkin" cx="48%" cy="42%" r="70%">
+                  <stop offset="0%" stopColor="rgba(117,22,43,.24)" />
+                  <stop offset="72%" stopColor="rgba(75,11,25,.12)" />
+                  <stop offset="100%" stopColor="rgba(229,173,56,.08)" />
+                </radialGradient>
+              </defs>
+              <ellipse cx="50" cy="50" rx="45" ry="39" className="topology-rind" />
+              <ellipse cx="50" cy="50" rx="39" ry="33" fill="url(#topologySkin)" className="topology-flesh" />
+              {[22, 42, 63, 82].map((rotation) => (
+                <path
+                  key={rotation}
+                  d="M 50 50 C 38 34, 35 23, 44 13 M 50 50 C 62 66, 63 78, 54 88"
+                  className="topology-membrane"
+                  transform={`rotate(${rotation} 50 50)`}
+                />
+              ))}
+              {visibleFibres.map((fibre) => {
+                const path = fibrePath(fibre, graphPositions);
+                if (!path) return null;
+                const active = selectedId && (fibre.sourceId === selectedId || fibre.targetId === selectedId);
+                return <path key={fibre.id} d={path} className={active ? "topology-fibre edge-active" : "topology-fibre"} />;
               })}
-              <circle cx="50" cy="48" r="24" className="core-halo" />
-              <circle cx="50" cy="48" r="15" className="core-halo inner" />
+              {visibleFibres.length === 0
+                ? seeds.map((seed) => {
+                    const position = graphPositions[seed.id];
+                    return (
+                      <line
+                        key={seed.id}
+                        x1="50"
+                        y1="48"
+                        x2={position.x}
+                        y2={position.y}
+                        className={selectedId === seed.id ? "edge-active" : ""}
+                      />
+                    );
+                  })
+                : null}
+              <circle cx="50" cy="48" r="17" className="core-halo" />
+              <circle cx="50" cy="48" r="9" className="core-halo inner" />
             </svg>
 
             <button
@@ -159,7 +218,7 @@ export function BrainView({ onOpenCrown }: BrainViewProps) {
                 <button
                   key={seed.id}
                   type="button"
-                  className={`graph-node node-${position.tone}${selectedId === seed.id ? " selected" : ""}${matched ? "" : " dimmed"}`}
+                  className={`graph-node topology-node node-${position.tone}${selectedId === seed.id ? " selected" : ""}${matched ? "" : " dimmed"}`}
                   style={{ left: `${position.x}%`, top: `${position.y}%` }}
                   onClick={() => setSelectedId(seed.id)}
                 >

@@ -267,6 +267,56 @@ button { color: inherit; }
 .console-footnote button, .console-footnote span { display: flex; align-items: center; gap: 7px; }
 .console-footnote button { border: 0; padding: 0; color: #9b898e; background: transparent; cursor: pointer; }
 
+/* Brain topology, Agent Foundry, Connectors */
+.topology-graph { min-height: 620px; border: 1px solid rgba(229,173,56,.08); border-radius: 22px 22px 44px 44px; background: radial-gradient(circle at 52% 45%, rgba(117,22,43,.18), transparent 38%), radial-gradient(circle at 35% 70%, rgba(229,173,56,.07), transparent 26%); }
+.topology-rind { fill: rgba(75,11,25,.18); stroke: rgba(229,173,56,.34); stroke-width: .55; }
+.topology-flesh { stroke: rgba(246,239,227,.05); stroke-width: .3; }
+.topology-membrane { fill: none; stroke: rgba(246,239,227,.085); stroke-width: .28; stroke-dasharray: 1.2 1.8; }
+.topology-fibre { fill: none; stroke: rgba(232,146,164,.22); stroke-width: .26; stroke-linecap: round; stroke-dasharray: .7 1.2; }
+.topology-fibre.edge-active { stroke: var(--gold); stroke-width: .42; stroke-dasharray: none; filter: drop-shadow(0 0 5px rgba(229,173,56,.35)); }
+.topology-node { max-width: 150px; backdrop-filter: blur(8px); }
+.topology-node strong { max-width: 118px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.foundry-layout, .connectors-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; }
+.foundry-main, .connector-map, .connector-detail { padding: 23px; }
+.foundry-toolbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin: 18px 0; }
+.foundry-search { margin: 0; flex: 0 1 330px; }
+.domain-filter { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.domain-filter button { border: 1px solid var(--line); border-radius: 99px; padding: 7px 10px; color: #8d8084; background: rgba(255,255,255,.02); font-size: 8px; cursor: pointer; text-transform: capitalize; }
+.domain-filter button.active, .domain-filter button:hover { color: #251006; border-color: rgba(229,173,56,.45); background: var(--gold); }
+.agent-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 12px; }
+.agent-manifest-card { min-height: 154px; display: grid; grid-template-columns: 42px 1fr 18px; gap: 13px; align-items: start; border: 1px solid var(--line); border-radius: 13px; padding: 16px; color: inherit; background: linear-gradient(145deg, rgba(29,18,22,.82), rgba(12,9,10,.88)); text-align: left; cursor: pointer; transition: transform .2s, border-color .2s, background .2s; }
+.agent-manifest-card:hover, .agent-manifest-card.active { transform: translateY(-2px); border-color: rgba(232,146,164,.34); background: linear-gradient(145deg, rgba(66,13,28,.58), rgba(19,11,14,.9)); }
+.agent-card-icon { width: 38px; height: 38px; display: grid; place-items: center; color: var(--rose); border: 1px solid rgba(232,146,164,.24); border-radius: 10px; background: rgba(232,146,164,.06); }
+.agent-card-body, .agent-card-body strong, .agent-card-body small { display: block; }
+.agent-card-kicker { color: var(--gold); font: 700 7px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.agent-card-body strong { margin: 7px 0; font: 500 17px/1.12 var(--serif); }
+.agent-card-body small { min-height: 46px; color: #84777b; font-size: 9px; line-height: 1.5; }
+.agent-card-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+.agent-card-meta span { display: flex; align-items: center; gap: 5px; color: #a39196; border: 1px solid var(--line); border-radius: 99px; padding: 5px 7px; font-size: 7px; text-transform: uppercase; }
+
+.connector-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 18px; }
+.connector-card { min-height: 138px; display: grid; grid-template-columns: 40px 1fr; gap: 12px; border: 1px solid var(--line); border-radius: 13px; padding: 16px; color: inherit; background: rgba(17,12,14,.76); text-align: left; cursor: pointer; transition: transform .2s, border-color .2s; }
+.connector-card:hover, .connector-card.active { transform: translateY(-2px); border-color: rgba(229,173,56,.32); }
+.connector-icon { width: 38px; height: 38px; display: grid; place-items: center; color: var(--gold); border: 1px solid rgba(229,173,56,.22); border-radius: 10px; background: rgba(229,173,56,.06); }
+.connector-body, .connector-body strong, .connector-body small, .connector-body span { display: block; }
+.connector-body strong { font: 500 17px var(--serif); }
+.connector-body small { margin: 7px 0 12px; color: #827579; font-size: 9px; line-height: 1.45; }
+.connector-ready, .connector-waiting { width: fit-content; display: flex !important; align-items: center; gap: 5px; border-radius: 99px; padding: 5px 7px; font: 700 7px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.connector-ready { color: var(--green); background: rgba(119,201,158,.08); }
+.connector-waiting { color: var(--gold); background: rgba(229,173,56,.08); }
+.connector-detail h2 { margin: 0 0 12px; font: 500 30px/1 var(--serif); }
+.connector-detail > p { color: #918388; font-size: 11px; line-height: 1.6; }
+.capability-list { margin-top: 22px; border-top: 1px solid var(--line); }
+.capability-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.capability-row div span { display: block; color: var(--gold); font: 700 8px var(--mono); letter-spacing: .08em; }
+.capability-row div strong { display: block; margin-top: 5px; font: 500 13px var(--serif); }
+.capability-row small { width: fit-content; color: #8b7e82; font-size: 8px; }
+.policy-pill { display: flex; align-items: center; gap: 5px; border-radius: 99px; padding: 5px 7px; border: 1px solid var(--line); text-transform: uppercase; letter-spacing: .06em; }
+.policy-pill.auto_run_allowed { color: var(--green); border-color: rgba(119,201,158,.25); }
+.policy-pill.requires_team_confirmation { color: var(--gold); border-color: rgba(229,173,56,.28); }
+.policy-pill.requires_owner_approval { color: var(--rose); border-color: rgba(232,146,164,.28); }
+
 /* Auth */
 .login-page { min-height: 100vh; display: grid; place-items: center; padding: 36px; overflow: hidden; background: radial-gradient(circle at 16% 18%, rgba(117,22,43,.28), transparent 26%), radial-gradient(circle at 78% 74%, rgba(229,173,56,.12), transparent 28%), var(--ink); }
 .login-hero { position: relative; width: min(1120px, 100%); min-height: 680px; display: grid; grid-template-columns: 1.12fr 440px; gap: 28px; align-items: stretch; border: 1px solid var(--line); background: rgba(12,8,10,.78); box-shadow: 0 30px 100px rgba(0,0,0,.35); overflow: hidden; }
@@ -329,6 +379,8 @@ button { color: inherit; }
   .seed-inspector > p { min-height: 0; }
   .confidence-row { margin-top: 0; }
   .seed-facts, .tag-list, .outline-action { grid-column: 2; }
+  .foundry-layout, .connectors-layout { grid-template-columns: 1fr; }
+  .connector-detail { display: block; }
   .foundation-row, .process-grid { grid-template-columns: repeat(2, 1fr); }
   .plan-layout { grid-template-columns: 280px 1fr; }
 }
@@ -348,6 +400,10 @@ button { color: inherit; }
   .metric-strip article:nth-child(2) { border-right: 0; }
   .metric-strip article:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .seed-graph { min-height: 440px; }
+  .topology-graph { min-height: 500px; }
+  .foundry-toolbar { align-items: stretch; flex-direction: column; }
+  .foundry-search { max-width: none; flex-basis: auto; }
+  .domain-filter { justify-content: flex-start; }
   .plan-layout { grid-template-columns: 1fr; }
   .plan-overview { grid-template-columns: repeat(2, 1fr); }
   .plan-overview div:nth-child(2) { border-right: 0; }
@@ -373,9 +429,14 @@ button { color: inherit; }
   .metric-strip article { padding: 15px; }
   .graph-card { padding: 16px; }
   .seed-graph { min-height: 390px; margin-inline: -8px; }
+  .topology-graph { min-height: 430px; border-radius: 18px; }
   .core-node { width: 105px; height: 105px; }
   .graph-node { min-width: 70px; padding: 8px; }
   .graph-node strong { font-size: 10px; }
+  .agent-card-grid, .connector-card-grid { grid-template-columns: 1fr; }
+  .foundry-main, .connector-map, .connector-detail { padding: 16px; }
+  .agent-manifest-card { grid-template-columns: 36px 1fr; }
+  .agent-manifest-card > svg { display: none; }
   .seed-inspector { display: block; }
   .seed-inspector > p { min-height: 0; }
   .confidence-row { margin-top: 22px; }
