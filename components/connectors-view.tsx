@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Database, GitPullRequest, LockKeyhole, Mail, PlugZap, Rocket, ShieldAlert, Sparkles, Zap } from "lucide-react";
 import { capabilityRegistry, type CapabilityDefinition } from "@/lib/mcp/capabilities";
+import { ModelKeysPanel } from "@/components/model-keys-panel";
 
 type HealthEnvironment = {
   supabase?: boolean;
@@ -154,6 +155,8 @@ export function ConnectorsView() {
         </section>
       ) : null}
 
+      <ModelKeysPanel />
+
       <div className="connectors-layout">
         <section className="panel-card connector-map">
           <div className="panel-heading">
@@ -215,6 +218,33 @@ export function ConnectorsView() {
           </div>
         </aside>
       </div>
+
+      <section className="graph-card panel-card">
+        <div className="panel-heading">
+          <div><span className="section-label">PER-WORKSPACE APPS</span><h2>Connect your own accounts</h2></div>
+          <div className="graph-legend"><ShieldAlert size={14} /> Not live yet</div>
+        </div>
+        <p className="model-keys-subtitle">
+          The goal: connect your own Google Drive, Gmail, Fathom, Supabase, and Vercel accounts so builds Pomebrain
+          makes for you host and store data under your own accounts, not a shared admin one. Each of these needs an
+          OAuth app registered with that provider first - that&apos;s a one-time setup step, not code, and it hasn&apos;t
+          been done yet for any of them.
+        </p>
+        <div className="external-connector-grid">
+          {[
+            { name: "Vercel", blocker: "Needs a Vercel Integration registered at vercel.com/dashboard/integrations/console." },
+            { name: "Supabase", blocker: "Needs a Supabase OAuth App from Supabase's partner program." },
+            { name: "Google Drive / Gmail", blocker: "Needs an OAuth Client from Google Cloud Console (separate from the sign-in one)." },
+            { name: "Fathom", blocker: "Needs an API/OAuth credential issued by Fathom." },
+          ].map((item) => (
+            <article key={item.name} className="external-connector-card">
+              <strong>{item.name}</strong>
+              <span className="connector-waiting"><ShieldAlert size={12} /> Awaiting setup</span>
+              <p>{item.blocker}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="foundation-row">
         <article className="foundation-card">

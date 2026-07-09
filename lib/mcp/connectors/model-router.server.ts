@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { CapabilityRequest } from "@/lib/mcp/capabilities";
+import { getWorkspaceModelKey } from "@/lib/secrets/workspace-model-keys.server";
 
 type LlmCrossRouteRequest = Extract<CapabilityRequest, { capabilityId: "llm.cross_route" }>;
 type ModelTier = "fast" | "balanced" | "deep";
@@ -21,6 +22,8 @@ type ModelRouterFailureCode =
   | "provider_http_error"
   | "provider_response_error";
 
+type KeySource = "workspace" | "server";
+
 type ModelRouterResult =
   | {
       status: "completed";
@@ -28,6 +31,7 @@ type ModelRouterResult =
       complexity: LlmCrossRouteRequest["payload"]["complexity"];
       resolvedTier: ModelTier;
       routedTo: { provider: Provider; model: string };
+      keySource: KeySource;
       liveCallReady: true;
       text: string;
       usage?: unknown;
@@ -244,14 +248,18 @@ export async function executeModelRouterCapability(request: CapabilityRequest): 
     return failureResult(request, tier, chosen, "provider_not_implemented", "Gemini routing is cataloged but not implemented yet.");
   }
 
-  const apiKey = process.env[chosen.apiKeyEnv];
+  const workspaceId = request.metadata.workspaceId;
+  const workspaceKey = workspaceId ? await getWorkspaceModelKey(workspaceId, chosen.provider) : null;
+  const apiKey = workspaceKey ?? process.env[chosen.apiKeyEnv];
+  const keySource: KeySource = workspaceKey ? "workspace" : "server";
+
   if (!apiKey) {
     return failureResult(
       request,
       tier,
       chosen,
       "missing_api_key",
-      `${chosen.apiKeyEnv} is not set. Pomebrain will not fall back to another provider silently.`,
+      `No workspace key configured and ${chosen.apiKeyEnv} is not set on the server. Pomebrain will not fall back to another provider silently.`,
     );
   }
 
@@ -276,6 +284,7 @@ export async function executeModelRouterCapability(request: CapabilityRequest): 
       complexity: request.payload.complexity,
       resolvedTier: tier,
       routedTo: { provider: chosen.provider, model: chosen.model },
+      keySource,
       liveCallReady: true,
       text: providerResult.text,
       usage: providerResult.usage,

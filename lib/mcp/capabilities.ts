@@ -37,6 +37,7 @@ export const CapabilityMetadataSchema = z
   .object({
     triggeredByAgent: z.string().min(2).max(120),
     associatedPodId: z.string().min(1).max(80),
+    workspaceId: z.string().uuid().optional(),
   })
   .strict();
 
