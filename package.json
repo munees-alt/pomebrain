@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "check:production": "node scripts/check-production.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
@@ -22,6 +25,7 @@
     "zod": "latest"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@testing-library/react": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
@@ -31,5 +35,9 @@
     "jsdom": "latest",
     "typescript": "latest",
     "vitest": "latest"
+  },
+  "overrides": {
+    "brace-expansion": "1.1.16",
+    "postcss": "8.5.16"
   }
 }

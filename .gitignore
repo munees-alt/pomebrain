@@ -22,3 +22,7 @@
 
 # Supabase CLI project-link and runtime cache
 /supabase/.temp/
+
+# Browser test artifacts
+/playwright-report/
+/test-results/
