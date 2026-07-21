@@ -1,4 +1,5 @@
 import { PomebrainShell } from "@/components/pomebrain-shell";
+import { isPlatformAdmin } from "@/lib/admin";
 import { createSupabaseServerClient, hasSupabaseServerEnv } from "@/lib/supabase-server";
 import { redirect } from "next/navigation";
 
@@ -21,11 +22,7 @@ export default async function Home() {
   return (
     <PomebrainShell
       userEmail={user.email ?? "Unknown user"}
-      workspaceId={
-        typeof user.app_metadata?.workspace_id === "string"
-          ? user.app_metadata.workspace_id
-          : "missing workspace_id"
-      }
+      isAdmin={isPlatformAdmin(user.email, user.app_metadata)}
     />
   );
 }

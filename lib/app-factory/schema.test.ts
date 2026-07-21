@@ -40,6 +40,26 @@ describe("App Factory Phase 4 schema assets", () => {
     expect(sql).toContain("IF v_count <> 1 THEN");
   });
 
+  it("claims pending App Factory work atomically under caller RLS", () => {
+    const sql = readFileSync(join(process.cwd(), "supabase/migrations/13_atomic_app_factory_task_claim.sql"), "utf8");
+
+    expect(sql).toContain("CREATE OR REPLACE FUNCTION public.claim_app_factory_task");
+    expect(sql).toContain("AND status = 'pending'");
+    expect(sql).toContain("SECURITY INVOKER");
+    expect(sql).toContain("RETURNING *");
+  });
+
+  it("records attempts, structured deliverables, and recovers interrupted tasks", () => {
+    const sql = readFileSync(join(process.cwd(), "supabase/migrations/14_resumable_app_factory_delivery.sql"), "utf8");
+
+    expect(sql).toContain("ADD COLUMN IF NOT EXISTS task_key");
+    expect(sql).toContain("ADD COLUMN IF NOT EXISTS attempt_count");
+    expect(sql).toContain("ADD COLUMN IF NOT EXISTS result_payload");
+    expect(sql).toContain("CREATE OR REPLACE FUNCTION public.recover_stale_app_factory_tasks");
+    expect(sql).toContain("attempt_count = attempt_count + 1");
+    expect(sql).toContain("SECURITY INVOKER");
+  });
+
   it("audits graph-core seed, version, fibre, and project mutations", () => {
     const sql = readFileSync(join(process.cwd(), "supabase/migrations/03_audit_graph_core_tables.sql"), "utf8");
 

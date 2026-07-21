@@ -19,3 +19,6 @@
 
 .vercel
 .env*
+
+# Supabase CLI project-link and runtime cache
+/supabase/.temp/

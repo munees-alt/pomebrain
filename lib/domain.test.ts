@@ -11,7 +11,10 @@ describe("Pomebrain domain contracts", () => {
     expect(run.agents).toContain("Playwright E2E Tester");
     expect(run.skills).toContain("Recursive Task Resolution Loop");
     expect(run.status).toBe("awaiting_approval");
-    expect(run.steps).toHaveLength(7);
+    expect(run.steps).toHaveLength(8);
+    expect(run.steps.at(-1)?.id).toBe("publish");
+    expect(run.connectorPlan.map((requirement) => requirement.requirement)).toContain("backend_database");
+    expect(run.connectorPlan.map((requirement) => requirement.requirement)).toContain("model_reasoning");
   });
 
   it("rejects goals that are too vague", () => {

@@ -5,15 +5,19 @@ import { executeSupabaseCapability } from "@/lib/mcp/connectors/supabase.server"
 import { executeModelRouterCapability } from "@/lib/mcp/connectors/model-router.server";
 import { executeGitHubCapability } from "@/lib/mcp/connectors/github.server";
 import { executeVercelCapability } from "@/lib/mcp/connectors/vercel.server";
+import { executeGoogleWorkspaceCapability } from "@/lib/mcp/connectors/google-workspace.server";
 
-const LIVE_CAPABILITY_IDS = new Set<CapabilityRequest["capabilityId"]>([
+const liveCustomerCapabilityIds = new Set<CapabilityRequest["capabilityId"]>([
   "supabase.database.read",
   "supabase.task_state.write",
-  "llm.cross_route",
   "github.pull_requests.create",
   "github.branches.merge",
   "vercel.deploy.preview",
   "vercel.deploy.production",
+  "google.drive.read",
+  "google.drive.write",
+  "google.gmail.send",
+  "llm.cross_route",
 ]);
 
 export type McpExecutionResult =
@@ -51,6 +55,10 @@ async function routeToLiveConnector(request: CapabilityRequest) {
     case "vercel.deploy.preview":
     case "vercel.deploy.production":
       return executeVercelCapability(request);
+    case "google.drive.read":
+    case "google.drive.write":
+    case "google.gmail.send":
+      return executeGoogleWorkspaceCapability(request);
     default:
       throw new Error(`No live connector wired for "${request.capabilityId}".`);
   }
@@ -63,7 +71,7 @@ export async function executeCapabilityThroughMcp(request: CapabilityRequest): P
     associatedPodId: request.metadata.associatedPodId,
   };
 
-  if (LIVE_CAPABILITY_IDS.has(request.capabilityId)) {
+  if (liveCustomerCapabilityIds.has(request.capabilityId)) {
     try {
       const data = await routeToLiveConnector(request);
       return {
@@ -91,4 +99,3 @@ export async function executeCapabilityThroughMcp(request: CapabilityRequest): P
     request: requestSummary,
   };
 }
-

@@ -1,4 +1,5 @@
 import { CrownGoalSchema, CrownRunSchema, type CrownRun } from "@/lib/domain";
+import { planUniversalConnectors, type UniversalConnectorEnvironment } from "@/lib/connectors/universal-catalog";
 
 const coreBuildAgents = [
   "Pomebrain Architect Orchestrator",
@@ -104,7 +105,7 @@ function createTitle(goal: string) {
   return shortened.charAt(0).toUpperCase() + shortened.slice(1);
 }
 
-export function createCrownPlan(rawGoal: string): CrownRun {
+export function createCrownPlan(rawGoal: string, env: UniversalConnectorEnvironment = {}): CrownRun {
   const { goal } = CrownGoalSchema.parse({ goal: rawGoal });
   const specialists = selectSpecialists(goal);
   const skills = selectSkills(goal);
@@ -120,6 +121,7 @@ export function createCrownPlan(rawGoal: string): CrownRun {
     status: "awaiting_approval",
     agents: uniqueAgents(["Pomebrain Architect Orchestrator", "Brief Synthesizer", ...specialists, ...coreBuildAgents]),
     skills,
+    connectorPlan: planUniversalConnectors(goal, env),
     approvalRequired: true,
     steps: [
       {
@@ -159,16 +161,23 @@ export function createCrownPlan(rawGoal: string): CrownRun {
       },
       {
         id: "verify",
-        title: "Test, review, and remember",
-        detail: "Verify the artifact, record evidence, and propose new learning to the Brain.",
+        title: "Review implementation and test plan",
+        detail: "Review the generated files, define executable checks, record evidence, and flag anything that must be fixed before release.",
         agent: "Playwright E2E Tester",
         status: "approval",
       },
       {
         id: "handoff",
         title: "Prepare release handoff",
-        detail: "Package the changes into a PR or preview deployment, then wait for the required human approval gates.",
+        detail: "Create an isolated Vercel preview from the governed build branch and return its review URL.",
         agent: deploymentAgent,
+        status: "approval",
+      },
+      {
+        id: "publish",
+        title: "Promote approved preview to production",
+        detail: "Promote the reviewed preview only after a separate owner confirmation and record the production result.",
+        agent: "Vercel Deployment Manager",
         status: "approval",
       },
     ],

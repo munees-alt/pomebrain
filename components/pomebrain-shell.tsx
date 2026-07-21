@@ -7,26 +7,46 @@ import { BrainView } from "@/components/brain-view";
 import { ConnectorsView } from "@/components/connectors-view";
 import { CrownConsole } from "@/components/crown-console";
 import { PomegranateView } from "@/components/pomegranate-view";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 
 type PomebrainShellProps = {
   userEmail?: string;
-  workspaceId?: string;
+  isAdmin?: boolean;
 };
 
-export function PomebrainShell({ userEmail = "Unknown user", workspaceId = "missing workspace_id" }: PomebrainShellProps) {
-  const [activeView, setActiveView] = useState<AppView>("brain");
+const adminViews: AppView[] = ["brain", "seeds", "agents"];
+
+function initialView(isAdmin: boolean): AppView {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("connector") || params.get("connector_status") || params.get("connector_error")) {
+      return "connectors";
+    }
+  }
+
+  return isAdmin ? "brain" : "crown";
+}
+
+function isAdminView(view: AppView) {
+  return adminViews.includes(view);
+}
+
+export function PomebrainShell({ userEmail = "Unknown user", isAdmin = false }: PomebrainShellProps) {
+  const [activeView, setActiveView] = useState<AppView>(() => {
+    return initialView(isAdmin);
+  });
   const [mobileOpen, setMobileOpen] = useState(false);
+  const safeActiveView = !isAdmin && isAdminView(activeView) ? "crown" : activeView;
 
   const changeView = (view: AppView) => {
-    setActiveView(view);
+    setActiveView(!isAdmin && isAdminView(view) ? "crown" : view);
     setMobileOpen(false);
   };
 
   return (
     <div className="app-shell">
       <div className={`sidebar-wrap${mobileOpen ? " sidebar-open" : ""}`}>
-        <AppSidebar activeView={activeView} onViewChange={changeView} />
+        <AppSidebar activeView={safeActiveView} isAdmin={isAdmin} onViewChange={changeView} />
       </div>
       {mobileOpen && <button className="sidebar-scrim" onClick={() => setMobileOpen(false)} aria-label="Close menu" />}
 
@@ -41,37 +61,46 @@ export function PomebrainShell({ userEmail = "Unknown user", workspaceId = "miss
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
           <div className="topbar-context">
-            <span>{activeView === "crown" ? "BUILD SYSTEM" : activeView === "connectors" ? "MCP LAYER" : "THE BRAIN"}</span>
+            <span>{safeActiveView === "crown" ? "BUILD SYSTEM" : safeActiveView === "connectors" ? "MCP LAYER" : "THE BRAIN"}</span>
             <strong>
-              {activeView === "brain"
+              {safeActiveView === "brain"
                 ? "Pomegranate Graph"
-                : activeView === "seeds"
+                : safeActiveView === "seeds"
                   ? "Seed Library"
-                  : activeView === "agents"
+                  : safeActiveView === "agents"
                     ? "Agent Foundry"
-                    : activeView === "connectors"
+                    : safeActiveView === "connectors"
                       ? "Connectors"
                       : "Crown Console"}
             </strong>
           </div>
           <div className="system-status">
             <span className="status-dot" />
-            <span>Brain online</span>
+            <span>Pomebrain online</span>
             <i />
-            <span className="phase-pill">PHASE 0</span>
+            <span className="phase-pill">LIVE</span>
+            <form action="/auth/signout" method="post">
+              <button className="topbar-signout" type="submit" aria-label={`Sign out ${userEmail}`}>
+                <LogOut size={14} />
+                <span>Sign out</span>
+              </button>
+            </form>
           </div>
         </header>
 
-        {activeView === "brain" ? (
+        {safeActiveView === "brain" && isAdmin ? (
           <BrainView onOpenCrown={() => changeView("crown")} />
-        ) : activeView === "seeds" ? (
+        ) : safeActiveView === "seeds" && isAdmin ? (
           <PomegranateView />
-        ) : activeView === "agents" ? (
+        ) : safeActiveView === "agents" && isAdmin ? (
           <AgentFoundryView />
-        ) : activeView === "connectors" ? (
+        ) : safeActiveView === "connectors" ? (
           <ConnectorsView />
         ) : (
-          <CrownConsole onOpenBrain={() => changeView("brain")} userEmail={userEmail} workspaceId={workspaceId} />
+          <CrownConsole
+            canOpenBrain={isAdmin}
+            onOpenBrain={() => changeView("brain")}
+          />
         )}
       </main>
     </div>

@@ -1,7 +1,22 @@
 import { NextResponse } from "next/server";
 import { executeGovernedCapability } from "@/lib/mcp/executor.server";
+import { isPlatformAdmin } from "@/lib/admin";
+import { createSupabaseServerClient, hasSupabaseServerEnv } from "@/lib/supabase-server";
 
 export async function POST(request: Request) {
+  if (!hasSupabaseServerEnv()) {
+    return NextResponse.json({ status: "rejected", message: "The workspace service is unavailable." }, { status: 503 });
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ status: "rejected", message: "Authentication is required." }, { status: 401 });
+  }
+  if (!isPlatformAdmin(user.email, user.app_metadata)) {
+    return NextResponse.json({ status: "rejected", message: "Direct capability execution is restricted to the master-admin control plane." }, { status: 403 });
+  }
+
   let body: unknown;
 
   try {
@@ -28,4 +43,3 @@ export async function POST(request: Request) {
 
   return NextResponse.json(result, { status: 200 });
 }
-

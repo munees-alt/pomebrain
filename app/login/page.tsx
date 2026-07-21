@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, LockKeyhole, Mail, ShieldCheck, Sparkles } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase-client";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,6 +32,12 @@ export default function LoginPage() {
 
       if (result.error) {
         setMessage(result.error.message);
+        return;
+      }
+
+      if (authMode === "signup" && !result.data.session) {
+        setMessageTone("success");
+        setMessage("Workspace requested. Check your email to confirm your account, then log in.");
         return;
       }
 
@@ -96,27 +103,27 @@ export default function LoginPage() {
 
           <p className="login-eyebrow">
             <Sparkles size={14} />
-            Protected workspace
+            Your agent build team
           </p>
           <h1>
-            Enter the brain.
-            <em> Keep every seed yours.</em>
+            Build from one goal.
+            <em> Ship with a full agent team.</em>
           </h1>
           <p className="login-copy">
-            Sign in to route your agents, skills, projects, and future Crown runs through your own
-            Supabase workspace.
+            Crown routes your goal through 19 protected specialist agents, then gives you a clear plan to approve.
+            Your first month includes all 19 agents and 200 agent actions.
           </p>
 
           <div className="login-proof-grid">
             <article>
               <ShieldCheck size={18} />
-              <strong>Workspace scoped</strong>
-              <span>Your JWT carries the workspace boundary.</span>
+              <strong>One month included</strong>
+              <span>Start with 200 specialist actions before choosing a plan.</span>
             </article>
             <article>
               <LockKeyhole size={18} />
-              <strong>RLS guarded</strong>
-              <span>Data visibility comes from real auth, not loose policies.</span>
+              <strong>Your tools stay yours</strong>
+              <span>Connect your own accounts and approve every important action.</span>
             </article>
           </div>
         </div>
@@ -136,7 +143,7 @@ export default function LoginPage() {
             <p>
               {mode === "login"
                 ? "Log in with your email and password to continue."
-                : "Sign up once. Pomebrain will provision your workspace automatically."}
+                : "Create your workspace and start your included month with all 19 agents."}
             </p>
           </div>
 
@@ -226,7 +233,7 @@ export default function LoginPage() {
           {message ? <p className={`login-message ${messageTone}`}>{message}</p> : null}
 
           <p className="login-footnote">
-            After sign-up, Supabase creates your workspace and stores its ID in app metadata.
+            By continuing, you agree to the Pomebrain <Link href="/terms">Terms</Link> and <Link href="/privacy">Privacy Policy</Link>.
           </p>
         </form>
       </section>

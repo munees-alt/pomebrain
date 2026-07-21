@@ -7,8 +7,8 @@ export type ModelKeyProvider = "claude" | "openai" | "gemini";
 
 // Fetches a workspace's own model provider key from Supabase Vault, decrypted
 // via the service-role-only get_workspace_model_key RPC. Returns null if the
-// workspace never configured one - callers should fall back to a shared
-// server key (process.env.ANTHROPIC_API_KEY etc.), not throw.
+// workspace never configured one. Customer execution must stop in that case;
+// Pomebrain never spends or exposes a shared platform model key for a tenant.
 export async function getWorkspaceModelKey(workspaceId: string, provider: ModelKeyProvider): Promise<string | null> {
   if (!SUPABASE_URL || !SERVICE_ROLE_KEY) return null;
 

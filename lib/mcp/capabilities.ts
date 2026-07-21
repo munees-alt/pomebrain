@@ -182,8 +182,9 @@ export const GoogleDriveWriteSchema = z
         folderId: z.string().min(1),
         fileName: z.string().min(1).max(180),
         mimeType: z.string().min(1).max(120),
-        contentDigest: z.string().min(16).max(128),
+        contentDigest: z.string().regex(/^[a-f0-9]{64}$/i, "contentDigest must be a SHA-256 hex digest."),
         sourceArtifactId: z.string().min(1).max(160),
+        content: z.string().max(500_000),
       })
       .strict(),
     metadata: CapabilityMetadataSchema,

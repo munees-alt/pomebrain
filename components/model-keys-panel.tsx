@@ -4,20 +4,19 @@ import { useEffect, useState } from "react";
 import { Check, KeyRound, Loader2, ShieldCheck, Trash2 } from "lucide-react";
 import { createSupabaseBrowserClient, hasSupabaseBrowserEnv } from "@/lib/supabase-client";
 
-type Provider = "claude" | "openai" | "gemini";
+type Provider = "claude" | "openai";
 
 type KeyRow = { provider: Provider; key_last4: string; updated_at: string };
 
 const PROVIDERS: { id: Provider; label: string; placeholder: string }[] = [
   { id: "claude", label: "Claude (Anthropic)", placeholder: "sk-ant-..." },
   { id: "openai", label: "OpenAI", placeholder: "sk-..." },
-  { id: "gemini", label: "Gemini (Google)", placeholder: "AIza..." },
 ];
 
 export function ModelKeysPanel() {
   const [workspaceId, setWorkspaceId] = useState<string | null>(null);
   const [rows, setRows] = useState<KeyRow[]>([]);
-  const [drafts, setDrafts] = useState<Record<Provider, string>>({ claude: "", openai: "", gemini: "" });
+  const [drafts, setDrafts] = useState<Record<Provider, string>>({ claude: "", openai: "" });
   const [busyProvider, setBusyProvider] = useState<Provider | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -117,8 +116,8 @@ export function ModelKeysPanel() {
         <div className="graph-legend"><ShieldCheck size={14} /> Encrypted via Supabase Vault</div>
       </div>
       <p className="model-keys-subtitle">
-        Saved here, your key is encrypted at rest and can only be decrypted by Pomebrain&apos;s server when routing a
-        model call for your workspace - never by other users, and never returned to any browser, including yours.
+        Your key is encrypted at rest and decrypted only for model calls made by your workspace. Pomebrain never
+        substitutes a master-admin key, and the saved secret is never returned to any browser.
       </p>
 
       {loading ? <p className="model-keys-status">Loading your keys…</p> : null}

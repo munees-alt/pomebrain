@@ -12,7 +12,6 @@ type ModelOption = {
   provider: Provider;
   model: string;
   tier: ModelTier;
-  apiKeyEnv: "ANTHROPIC_API_KEY" | "OPENAI_API_KEY" | "GOOGLE_API_KEY";
 };
 
 type ModelRouterFailureCode =
@@ -22,7 +21,7 @@ type ModelRouterFailureCode =
   | "provider_http_error"
   | "provider_response_error";
 
-type KeySource = "workspace" | "server";
+type KeySource = "workspace";
 
 type ModelRouterResult =
   | {
@@ -53,12 +52,12 @@ type ModelRouterResult =
     };
 
 const MODEL_CATALOG: ModelOption[] = [
-  { provider: "claude", tier: "fast", model: process.env.POMEBRAIN_CLAUDE_FAST_MODEL ?? "claude-haiku-4-5", apiKeyEnv: "ANTHROPIC_API_KEY" },
-  { provider: "claude", tier: "balanced", model: process.env.POMEBRAIN_CLAUDE_BALANCED_MODEL ?? "claude-sonnet-5", apiKeyEnv: "ANTHROPIC_API_KEY" },
-  { provider: "claude", tier: "deep", model: process.env.POMEBRAIN_CLAUDE_DEEP_MODEL ?? "claude-opus-4-8", apiKeyEnv: "ANTHROPIC_API_KEY" },
-  { provider: "openai", tier: "fast", model: process.env.POMEBRAIN_OPENAI_FAST_MODEL ?? "gpt-4o-mini", apiKeyEnv: "OPENAI_API_KEY" },
-  { provider: "openai", tier: "balanced", model: process.env.POMEBRAIN_OPENAI_BALANCED_MODEL ?? "gpt-4o", apiKeyEnv: "OPENAI_API_KEY" },
-  { provider: "openai", tier: "deep", model: process.env.POMEBRAIN_OPENAI_DEEP_MODEL ?? "gpt-5", apiKeyEnv: "OPENAI_API_KEY" },
+  { provider: "claude", tier: "fast", model: process.env.POMEBRAIN_CLAUDE_FAST_MODEL ?? "claude-haiku-4-5" },
+  { provider: "claude", tier: "balanced", model: process.env.POMEBRAIN_CLAUDE_BALANCED_MODEL ?? "claude-sonnet-5" },
+  { provider: "claude", tier: "deep", model: process.env.POMEBRAIN_CLAUDE_DEEP_MODEL ?? "claude-opus-4-8" },
+  { provider: "openai", tier: "fast", model: process.env.POMEBRAIN_OPENAI_FAST_MODEL ?? "gpt-5-nano" },
+  { provider: "openai", tier: "balanced", model: process.env.POMEBRAIN_OPENAI_BALANCED_MODEL ?? "gpt-5.1" },
+  { provider: "openai", tier: "deep", model: process.env.POMEBRAIN_OPENAI_DEEP_MODEL ?? "gpt-5-pro" },
 ];
 
 const COMPLEXITY_TO_TIER: Record<"low" | "medium" | "high", ModelTier> = {
@@ -68,6 +67,7 @@ const COMPLEXITY_TO_TIER: Record<"low" | "medium" | "high", ModelTier> = {
 };
 
 let providerFetch: ProviderFetch = fetch;
+let workspaceModelKeyResolver = getWorkspaceModelKey;
 
 export function setModelProviderFetchForTest(nextFetch: ProviderFetch) {
   providerFetch = nextFetch;
@@ -75,6 +75,14 @@ export function setModelProviderFetchForTest(nextFetch: ProviderFetch) {
 
 export function resetModelProviderFetchForTest() {
   providerFetch = fetch;
+}
+
+export function setWorkspaceModelKeyResolverForTest(nextResolver: typeof getWorkspaceModelKey) {
+  workspaceModelKeyResolver = nextResolver;
+}
+
+export function resetWorkspaceModelKeyResolverForTest() {
+  workspaceModelKeyResolver = getWorkspaceModelKey;
 }
 
 function selectModel(request: LlmCrossRouteRequest) {
@@ -249,9 +257,9 @@ export async function executeModelRouterCapability(request: CapabilityRequest): 
   }
 
   const workspaceId = request.metadata.workspaceId;
-  const workspaceKey = workspaceId ? await getWorkspaceModelKey(workspaceId, chosen.provider) : null;
-  const apiKey = workspaceKey ?? process.env[chosen.apiKeyEnv];
-  const keySource: KeySource = workspaceKey ? "workspace" : "server";
+  const workspaceKey = workspaceId ? await workspaceModelKeyResolver(workspaceId, chosen.provider) : null;
+  const apiKey = workspaceKey;
+  const keySource: KeySource = "workspace";
 
   if (!apiKey) {
     return failureResult(
@@ -259,7 +267,7 @@ export async function executeModelRouterCapability(request: CapabilityRequest): 
       tier,
       chosen,
       "missing_api_key",
-      `No workspace key configured and ${chosen.apiKeyEnv} is not set on the server. Pomebrain will not fall back to another provider silently.`,
+      `No ${chosen.provider} API key is connected for this workspace. Pomebrain does not fall back to a platform or another provider key. Add your own key in Connectors before running agents.`,
     );
   }
 

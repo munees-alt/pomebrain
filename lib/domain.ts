@@ -79,6 +79,21 @@ export const BuildStepSchema = z.object({
   status: z.enum(["queued", "ready", "approval", "running", "complete"]),
 });
 
+export const ConnectorPlanCandidateSchema = z.object({
+  connectorId: z.string(),
+  title: z.string(),
+  capabilityIds: z.array(z.string()),
+  ready: z.boolean(),
+  customerOwned: z.boolean(),
+});
+
+export const ConnectorPlanRequirementSchema = z.object({
+  requirement: z.string(),
+  label: z.string(),
+  reason: z.string(),
+  candidates: z.array(ConnectorPlanCandidateSchema),
+});
+
 export const CrownRunSchema = z.object({
   id: z.string(),
   goal: z.string(),
@@ -88,6 +103,7 @@ export const CrownRunSchema = z.object({
   agents: z.array(z.string()).min(1),
   skills: z.array(z.string()),
   steps: z.array(BuildStepSchema).min(1),
+  connectorPlan: z.array(ConnectorPlanRequirementSchema),
   approvalRequired: z.boolean(),
 });
 
@@ -96,4 +112,3 @@ export type Edge = z.infer<typeof EdgeSchema>;
 export type CrownGoal = z.infer<typeof CrownGoalSchema>;
 export type CrownRun = z.infer<typeof CrownRunSchema>;
 export type SeedKind = (typeof seedKinds)[number];
-

@@ -3,7 +3,9 @@ import { capabilityRegistry, parseCapabilityRequest } from "@/lib/mcp/capabiliti
 import {
   executeModelRouterCapability,
   resetModelProviderFetchForTest,
+  resetWorkspaceModelKeyResolverForTest,
   setModelProviderFetchForTest,
+  setWorkspaceModelKeyResolverForTest,
 } from "@/lib/mcp/connectors/model-router.server";
 import { executeGovernedCapability } from "@/lib/mcp/executor.server";
 
@@ -15,6 +17,7 @@ const metadata = {
 describe("Pomebrain MCP capability gateway", () => {
   afterEach(() => {
     resetModelProviderFetchForTest();
+    resetWorkspaceModelKeyResolverForTest();
     vi.unstubAllEnvs();
   });
 
@@ -163,7 +166,7 @@ describe("Pomebrain MCP capability gateway", () => {
   });
 
   it("invokes OpenAI through the cross-route capability when OpenAI is selected", async () => {
-    vi.stubEnv("OPENAI_API_KEY", "test-openai-key");
+    setWorkspaceModelKeyResolverForTest(async (_workspaceId, provider) => provider === "openai" ? "test-openai-key" : null);
     const providerFetch = vi.fn(async () => {
       return new Response(
         JSON.stringify({
@@ -187,6 +190,7 @@ describe("Pomebrain MCP capability gateway", () => {
       metadata: {
         triggeredByAgent: "Pomebrain Architect Orchestrator",
         associatedPodId: "engineering",
+        workspaceId: "00000000-0000-4000-8000-000000000000",
       },
     });
 
@@ -205,7 +209,7 @@ describe("Pomebrain MCP capability gateway", () => {
   });
 
   it("returns a structured missing-key error without silently falling back providers", async () => {
-    vi.stubEnv("OPENAI_API_KEY", "test-openai-key");
+    setWorkspaceModelKeyResolverForTest(async (_workspaceId, provider) => provider === "openai" ? "test-openai-key" : null);
 
     const result = await executeModelRouterCapability({
       capabilityId: "llm.cross_route",
@@ -219,6 +223,7 @@ describe("Pomebrain MCP capability gateway", () => {
       metadata: {
         triggeredByAgent: "Pomebrain Architect Orchestrator",
         associatedPodId: "engineering",
+        workspaceId: "00000000-0000-4000-8000-000000000000",
       },
     });
 

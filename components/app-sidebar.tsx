@@ -5,10 +5,11 @@ export type AppView = "brain" | "crown" | "seeds" | "agents" | "connectors";
 
 type AppSidebarProps = {
   activeView: AppView;
+  isAdmin?: boolean;
   onViewChange: (view: AppView) => void;
 };
 
-export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
+export function AppSidebar({ activeView, isAdmin = false, onViewChange }: AppSidebarProps) {
   return (
     <aside className="app-sidebar">
       <div className="brand-lockup">
@@ -21,17 +22,19 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
 
       <nav className="primary-nav" aria-label="Main navigation">
         <span className="nav-kicker">CORE MODES</span>
-        <button
-          className={activeView === "brain" ? "active" : ""}
-          onClick={() => onViewChange("brain")}
-          type="button"
-        >
-          <Brain size={18} />
-          <span>
-            Brain View
-            <small>See the living graph</small>
-          </span>
-        </button>
+        {isAdmin ? (
+          <button
+            className={activeView === "brain" ? "active" : ""}
+            onClick={() => onViewChange("brain")}
+            type="button"
+          >
+            <Brain size={18} />
+            <span>
+              Brain View
+              <small>Admin graph</small>
+            </span>
+          </button>
+        ) : null}
         <button
           className={activeView === "crown" ? "active" : ""}
           onClick={() => onViewChange("crown")}
@@ -44,29 +47,33 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
           </span>
         </button>
 
-        <span className="nav-kicker nav-kicker-space">THE BRAIN</span>
-        <button
-          className={activeView === "seeds" ? "active" : ""}
-          onClick={() => onViewChange("seeds")}
-          type="button"
-        >
-          <Sprout size={18} />
-          <span>
-            Seed Library
-            <small>Every agent and skill, visually</small>
-          </span>
-        </button>
-        <button
-          className={activeView === "agents" ? "active" : ""}
-          onClick={() => onViewChange("agents")}
-          type="button"
-        >
-          <Database size={18} />
-          <span>
-            Agent Foundry
-            <small>Assignable builder registry</small>
-          </span>
-        </button>
+        {isAdmin ? (
+          <>
+            <span className="nav-kicker nav-kicker-space">ADMIN BRAIN</span>
+            <button
+              className={activeView === "seeds" ? "active" : ""}
+              onClick={() => onViewChange("seeds")}
+              type="button"
+            >
+              <Sprout size={18} />
+              <span>
+                Seed Library
+                <small>Private seed graph</small>
+              </span>
+            </button>
+            <button
+              className={activeView === "agents" ? "active" : ""}
+              onClick={() => onViewChange("agents")}
+              type="button"
+            >
+              <Database size={18} />
+              <span>
+                Agent Foundry
+                <small>Private manifests</small>
+              </span>
+            </button>
+          </>
+        ) : null}
         <button
           className={activeView === "connectors" ? "active" : ""}
           onClick={() => onViewChange("connectors")}
@@ -84,8 +91,8 @@ export function AppSidebar({ activeView, onViewChange }: AppSidebarProps) {
         <div className="workspace-card">
           <span className="workspace-avatar">P</span>
           <div>
-            <strong>Pomebrain Lab</strong>
-            <span>Founder workspace</span>
+            <strong>{isAdmin ? "Pomebrain Control" : "Your workspace"}</strong>
+            <span>{isAdmin ? "Master admin" : "Customer account"}</span>
           </div>
           <Settings2 size={16} />
         </div>
